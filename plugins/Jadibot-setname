@@ -1,0 +1,50 @@
+// Tokens válidos
+const premiumTokens = Array.from({length: 10}, (_, i) => `MAK${i+1}`)
+// Estructura para llevar registro de tokens usados
+global.usedPremiumTokens = global.usedPremiumTokens || {}
+
+// Handler premium
+let handler = async (m, { conn, args, usedPrefix, command }) => {
+  // Solo acepta #codepremium y #qrpremium
+  if (!['codepremium', 'qrpremium'].includes(command)) return
+
+  // Si no hay token, pide uno
+  if (!args[0]) {
+    return await conn.reply(m.chat, "Ingresa un token", m)
+  }
+  const token = args[0].trim().toUpperCase()
+
+  // Si el token no es válido
+  if (!premiumTokens.includes(token)) {
+    return await conn.reply(m.chat, "Este token no está en mi base de datos", m)
+  }
+
+  // Si el token ya fue usado
+  if (global.usedPremiumTokens[token]) {
+    return await conn.reply(m.chat, "Este token ya está ocupado, ingresa un token válido", m)
+  }
+
+  // Marcar token como usado por este usuario (puedes asociar con m.sender)
+  global.usedPremiumTokens[token] = m.sender
+
+  // Token correcto
+  await conn.reply(m.chat, "Token correcto enviando vinculación", m)
+
+  // Aquí ejecuta la lógica de vinculación premium:
+  // 1. Genera QR o código premium (según comando)
+  // 2. Envía instrucciones premium (puedes personalizar los textos)
+
+  if (command === 'qrpremium') {
+    // Lógica para QR premium...
+    // Ejemplo de envío de QR (ajusta según tu framework)
+    await conn.sendMessage(m.chat, { text: "Aquí tu QR premium (implementa el QR real aquí)" }, { quoted: m })
+  } else if (command === 'codepremium') {
+    // Lógica para código premium...
+    // Ejemplo de envío de code (ajusta según tu framework)
+    await conn.sendMessage(m.chat, { text: "Aquí tu código premium (implementa el code real aquí)" }, { quoted: m })
+  }
+}
+handler.help = ['qrpremium <TOKEN>', 'codepremium <TOKEN>']
+handler.tags = ['premium']
+handler.command = ['qrpremium', 'codepremium']
+export default handler
