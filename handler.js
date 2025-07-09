@@ -534,7 +534,7 @@ const msg = {
   private: '「🩵」 Este comando solo puede ser usado en chats privados.',
   admin: '「🩵」 Este comando solo puede ser usado por admins.',
   botAdmin: '「🩵」 La bot debe ser admin.',
-  unreg: '「🩵」 Necesitas registrarte para usar mis comandos disponibles.',
+  unreg: '「🩵」 Necesitas registrarte para usar mis comandos disponibles.\n\n#Reg nombre.edad\n\nEjemplo: #reg M500 Ultra.28',
   restrict: '「🩵」 𝙴𝚜te Comando fue desactivado por mi creador.'
 }[type];
 if (msg) return conn.reply(m.chat, msg, m, rcanal).then(_ => m.react('✖️'))}
