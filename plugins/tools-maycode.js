@@ -11,6 +11,7 @@ import { makeWASocket } from '../lib/simple.js';
 import { useMultiFileAuthState, fetchLatestBaileysVersion, makeCacheableSignalKeyStore } from "@whiskeysockets/baileys";
 import { fileURLToPath } from 'url';
 
+// Mensajes premium
 const rtx = "*︰꯭𞋭🩵 ̸̷᮫໊᷐͢᷍ᰍ⧽͓̽ CONEXIÓN SUBBOT PREMIUM*\n\n━⧽ MODO CODIGO QR PREMIUM\n\n✰ Pasos de vinculación:\n\n• Escanea este QR en WhatsApp Web.\n• Disfruta de tu SubBot premium.";
 const rtx2 = "*︰꯭𞋭🩵 ̸̷᮫໊᷐͢᷍ᰍ⧽͓̽ CONEXIÓN SUBBOT PREMIUM*\n\n━⧽ MODO CODIGO PREMIUM\n\n✰ Pasos de vinculación:\n\n• Pega este código en WhatsApp Web.\n• Disfruta de tu SubBot premium.";
 
@@ -35,10 +36,10 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   global.usedPremiumTokens[token] = m.sender;
   await conn.reply(m.chat, "Token correcto enviando vinculación", m);
 
-  // Vinculación premium
+  // Vinculación premium usando la carpeta global.Sessions
   let who = m.sender;
   let id = `${who.split`@`[0]}`;
-  let pathPremium = path.join("./premiumSessions/", id);
+  let pathPremium = path.join(global.Sessions, id);
   if (!fs.existsSync(pathPremium)) fs.mkdirSync(pathPremium, { recursive: true });
 
   blackPremium({ pathPremium, m, conn, command });
