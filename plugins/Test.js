@@ -1,39 +1,88 @@
-const font2 = {
-  a: '🅐', b: '🅑', c: '🅒', d: '🅓', e: '🅔', f: '🅕', g: '🅖',
-  h: '🅗', i: '🅘', j: '🅙', k: '🅚', l: '🅛', m: '🅜', n: '🅝',
-  o: '🅞', p: '🅟', q: '🅠', r: '🅡', s: '🅢', t: '🅣', u: '🅤',
-  v: '🅥', w: '🅦', x: '🅧', y: '🅨', z: '🅩'
+/*
+• @David-Chian
+- https://github.com/David-Chian
+*/
+
+import fetch from 'node-fetch';
+import baileys from '@whiskeysockets/baileys';
+
+async function sendAlbumMessage(jid, medias, options = {}) {
+    if (typeof jid !== "string") throw new TypeError(`jid must be string, received: ${jid}`);
+    if (medias.length < 2) throw new RangeError("Se necesitan al menos 2 imágenes para un álbum");
+
+    const caption = options.text || options.caption || "";
+    const delay = !isNaN(options.delay) ? options.delay : 500;
+    delete options.text;
+    delete options.caption;
+    delete options.delay;
+
+    const album = baileys.generateWAMessageFromContent(
+        jid,
+        { messageContextInfo: {}, albumMessage: { expectedImageCount: medias.length } },
+        {}
+    );
+
+    await conn.relayMessage(album.key.remoteJid, album.message, { messageId: album.key.id });
+
+    for (let i = 0; i < medias.length; i++) {
+        const { type, data } = medias[i];
+        const img = await baileys.generateWAMessage(
+            album.key.remoteJid,
+            { [type]: data, ...(i === 0 ? { caption } : {}) },
+            { upload: conn.waUploadToServer }
+        );
+        img.message.messageContextInfo = {
+            messageAssociation: { associationType: 1, parentMessageKey: album.key },
+        };
+        await conn.relayMessage(img.key.remoteJid, img.message, { messageId: img.key.id });
+        await baileys.delay(delay);
+    }
+    return album;
 }
 
-const handler = async (m, { conn, text }) => {
-  if (!text.includes('|')) {
-    return m.reply(`❌ Formato incorrecto.\nUsa:\n.reactch https://whatsapp.com/channel/abc/123|Hola Mundo`)
-  }
+const pinterest = async (m, { conn, text, usedPrefix, command }) => {
+    if (!text) return conn.reply(m.chat, `*💎 Formato incorrecto. Uso Correcto: ${usedPrefix + command} M500 ULTRA BOT*`, m);
 
-  let [link, ...messageParts] = text.split('|')
-  link = link.trim()
-  const msg = messageParts.join('|').trim().toLowerCase()
+    await m.react('🕐');
+    conn.reply(m.chat, '💎 *Descargando imágenes de Pinterest...*', m, {
+        contextInfo: {
+            externalAdReply: {
+                mediaUrl: null,
+                mediaType: 1,
+                showAdAttribution: true,
+                title: packname,
+                body: wm,
+                previewType: 0,
+                thumbnail: icons,
+                sourceUrl: channel
+            }
+        }
+    });
 
-  if (!link.startsWith("https://whatsapp.com/channel/")) {
-    return m.reply("❌ El enlace no es válido.\nDebe comenzar con: https://whatsapp.com/channel/")
-  }
+    try {
+        const res = await fetch(`https://api.dorratz.com/v2/pinterest?q=${encodeURIComponent(text)}`);
+        const data = await res.json();
 
-  const emoji = msg.split('').map(c => c === ' ' ? '―' : (font2[c] || c)).join('')
+        if (!Array.isArray(data) || data.length < 2) {
+            return conn.reply(m.chat, '❌ No se encontraron suficientes imágenes para un álbum.', m);
+        }
 
-  try {
-    const [, , , , channelId, messageId] = link.split('/')
-    const res = await conn.newsletterMetadata("invite", channelId)
-    await conn.newsletterReactMessage(res.id, messageId, emoji)
-    m.reply(`✅ Reacción enviada como: *${emoji}*\nCanal: *${res.name}*`)
-  } catch (e) {
-    console.error(e)
-    m.reply("❌ Error\nNo se pudo reaccionar. Revisa el enlace o tu conexión.")
-  }
-}
+        const images = data.slice(0, 10).map(img => ({ type: "image", data: { url: img.image_large_url } }));
 
-handler.command = ['reactch', 'rch']
-handler.tags = ['tools']
-handler.help = ['reactch <link>|<texto>']
-handler.owner = true
+        const caption = `💎 𝗥𝗲𝘀𝘂𝗹𝘁𝗮𝗱𝗼𝘀 𝗱𝗲: ${text}`;
+        await sendAlbumMessage(m.chat, images, { caption, quoted: m });
 
-export default handler
+        await m.react('✅');
+    } catch (error) {
+        console.error(error);
+        await m.react('❌');
+        conn.reply(m.chat, '⚠️ Hubo un error al obtener las imágenes de Pinterest.', m);
+    }
+};
+
+pinterest.help = ['pinterest <query>'];
+pinterest.tags = ['buscador', 'descargas'];
+pinterest.command = /^(pinterest|pin)$/i;
+pinterest.register = true;
+
+export default pinterest;
