@@ -23,6 +23,26 @@ const __dirname = path.dirname(__filename);
 let handler = async (m, { conn, args, usedPrefix, command }) => {
     if (!['codepremium', 'qrpremium'].includes(command)) return;
 
+// Agregar esto después de la línea: let handler = await import('./handler.js')
+
+// Hacer el handler accesible globalmente para los SubBots
+global.handler = handler;
+
+// En la función reloadHandler, también actualizar el global
+global.reloadHandler = async function(restatConn) {
+    try {
+        const Handler = await import(`./handler.js?update=${Date.now()}`).catch(console.error);
+        if (Object.keys(Handler || {}).length) {
+            handler = Handler;
+            global.handler = Handler; // Actualizar también el global
+        }
+    } catch (e) {
+        console.error(e);
+    }
+    
+    // ... resto del código de reloadHandler
+}
+
     let time = global.db.data.users[m.sender].Subs + 120000;
     if (new Date - global.db.data.users[m.sender].Subs < 120000)
         return conn.reply(m.chat, `🕐 Debes esperar ${msToTime(time - new Date())} para volver a vincular un *Sub-Bot Premium.*`, m);
