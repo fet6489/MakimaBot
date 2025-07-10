@@ -104,8 +104,8 @@ let handler = async (m, { conn, usedPrefix, text, command }) => {
 ╭━━I N F O-B O-T━━
 ┃Creador: 𓆩‌۫᷼ ִֶָღܾ݉͢ғ꯭ᴇ꯭፝ℓɪ꯭ͨא𓆪
 ┃Tiempo activo: ${uptime}
-┃Baileys: Multi device.
-┃Base: Oficial.
+┃Baileys: Multi device
+┃Moneda actual: ${moneda}
 ┃Registros: ${totalreg}
 ╰━━━━━━━━━━━━━
 
@@ -113,7 +113,7 @@ let handler = async (m, { conn, usedPrefix, text, command }) => {
 ┃Nombre: ${nombre}
 ┃Rango: ${role}
 ┃Nivel: ${level}
-┃Coins: ${coins}
+┃Coins: ${chocolates}
 ╰━━━━━━━━━━━━━
 
 ➪ 𝗟𝗜𝗦𝗧𝗔 
