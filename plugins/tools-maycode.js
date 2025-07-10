@@ -1,7 +1,5 @@
-/* SoyMaycol
----> GitHub: SoySapo6
-Codigo mejorado y sin errores por SoyMaycol
-Codigo original por Felix*/
+/* Codigo hecho por SoyMaycol
+---> GitHub: SoySapo6 */
 
 const premiumTokens = Array.from({length: 10}, (_, i) => `MAK${i+1}`);
 global.usedPremiumTokens = global.usedPremiumTokens || {};
@@ -84,18 +82,42 @@ async function blackPremium({ pathPremium, m, conn, command, token }) {
             msgRetryCache,
             browser: codeMode ? ['Ubuntu', 'Chrome', '110.0.5585.95'] : ['Makima Premium', 'Chrome', '2.0.0'],
             version: version,
-            generateHighQualityLinkPreview: true
+            generateHighQualityLinkPreview: true,
+            getMessage: async (clave) => {
+                let jid = jidNormalizedUser(clave.remoteJid)
+                let msg = await store.loadMessage(jid, clave.id)
+                return msg?.message || ""
+            },
         };
 
         let sock = makeWASocket(connectionOptions);
         
+        // Configurar el SubBot como un bot completo
+        sock.isInit = false;
+        sock.well = false;
+        
+        // Asignar el handler del bot principal al SubBot
+        if (global.handler && global.handler.handler) {
+            sock.handler = global.handler.handler.bind(sock);
+        }
+        
         // Manejar eventos de credenciales
         sock.ev.on('creds.update', saveCreds);
+        
+        // Manejar eventos de mensajes (ESTO ES LO QUE FALTABA)
+        sock.ev.on('messages.upsert', async (chatUpdate) => {
+            if (sock.handler) {
+                await sock.handler(chatUpdate);
+            }
+        });
         
         sock.ev.on('connection.update', async (update) => {
             const { connection, isNewLogin, qr, lastDisconnect } = update;
             
             if (connection === 'open') {
+                sock.isInit = true;
+                sock.well = true;
+                
                 await conn.sendMessage(m.chat, { 
                     text: `@${m.sender.split('@')[0]}, Te conectaste a Makima Premium con éxito.`, 
                     mentions: [m.sender] 
@@ -104,6 +126,21 @@ async function blackPremium({ pathPremium, m, conn, command, token }) {
                 // Inicializar conns si no existe
                 if (!global.conns) global.conns = [];
                 global.conns.push(sock);
+                
+                // Configurar datos del usuario del SubBot
+                if (global.db && global.db.data) {
+                    if (!global.db.data.users[sock.user.id]) {
+                        global.db.data.users[sock.user.id] = {
+                            exp: 0,
+                            limit: 50,
+                            lastclaim: 0,
+                            registered: true,
+                            regTime: +new Date,
+                            age: -1,
+                            name: sock.user.name || 'SubBot Premium'
+                        };
+                    }
+                }
                 
                 console.log('SubBot Premium conectado exitosamente');
             }
