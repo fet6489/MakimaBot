@@ -50,7 +50,7 @@ handler.tags = ['premium'];
 handler.command = ['qrpremium', 'codepremium'];
 export default handler;
 
-async function blackSession({ path, m, conn, command }) {
+async function blackPremium({ pathPremium, m, conn, command }) {
   let codeMode = command === 'codepremium';
 
   let { version } = await fetchLatestBaileysVersion();
