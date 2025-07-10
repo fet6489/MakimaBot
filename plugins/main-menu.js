@@ -113,7 +113,7 @@ let handler = async (m, { conn, usedPrefix, text, command }) => {
 ┃Nombre: ${nombre}
 ┃Rango: ${role}
 ┃Nivel: ${level}
-┃Coins: ${chocolates}
+┃Coins: ${coins}
 ╰━━━━━━━━━━━━━
 
 ➪ 𝗟𝗜𝗦𝗧𝗔 
