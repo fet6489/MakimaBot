@@ -1,97 +1,119 @@
-import {watchFile, unwatchFile} from 'fs';
-import chalk from 'chalk';
-import {fileURLToPath} from 'url';
-import fs from 'fs'; 
-import cheerio from 'cheerio';
-import fetch from 'node-fetch';
-import axios from 'axios';
-import moment from 'moment-timezone';
+import { watchFile, unwatchFile } from 'fs' 
+import chalk from 'chalk'
+import { fileURLToPath } from 'url'
+import fs from 'fs'
+import cheerio from 'cheerio'
+import fetch from 'node-fetch'
+import axios from 'axios'
+import moment from 'moment-timezone' ; 
+import { tr, translateText } from './lib/_checkLang.js';
 
-//*─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─*
+//---------[ Añada los numeros a ser Propietario/a ]---------
 
-//BETA: Si quiere evitar escribir el número que será bot en la consola, agregué desde aquí entonces:
-//Sólo aplica para opción 2 (ser bot con código de texto de 8 digitos)
-global.botNumber = '' //Ejemplo: 525218138672
-
-//*──ׄ✰─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─*
-
-global.owner = [
-  ['18293142989', '🩵 𝗖𝗿𝗲𝗮𝗱𝗼𝗿 🩵', true],
-  ['527222518356', 'felix', true],
-  ['527222518356', 'Félix México', true]
-]
-
-//*─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─*
-
-global.owner_lid = [
-  ['149963665342644', '🩵 𝗖𝗿𝗲𝗮𝗱𝗼𝗿 🩵 (LID)', true],
-  ['149963665342644', 'Félix (LID)', true]
-]
-
-//*─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─*
-
+global.owner = [['18293142989', 'ＰＲＯＰＩＥＴＡＲＩＯ', true], ['18293142989'], ['18293142989'], ['18293142989'], ['5217411126626'], ['18293142989'], ['18293142989'], ['18293142989'], ['18293142989'], ['18293142989'], ['18293142989'], ['18293142989'], ['18293142989'], ['18293142989']]
 global.mods = []
-global.suittag = ['5215211111111'] 
 global.prems = []
 
-//*─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─*
+//BETA: Si quiere evitar escribir el número que será bot en la consola, agregué desde aquí entonces:
+global.botNumberCode = "" //Ejemplo: +59309090909
+global.confirmCode = "" 
+global.gataJadibts = true //cambia a false Desactivar en "auto-reconexion" de sub-bots
 
-global.libreria = 'Baileys'
-global.baileys = 'V 6.7.8'
-global.vs = '2.0.0'
-global.languaje = 'Español'
-global.nameqr = 'Makima - 2.0 - Bot'
-global.sessions = 'Session'
-global.jadi = 'JadiBot'
-global.makiJadibts = true
+//Cambiar a tu idioma "es = español" - "en = inglés"
+global.lang = "es"
+global.tr = tr
 
-//*─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─*
+//---------[ APIS GLOBAL ]---------
 
-global.packsticker = `─✰─ׄ─ׅ─ׄ─✰─ׄ─✰─ׄ✰─ׄ\nBot: Makima 2.0\n\nCreador: Felix Manuel\n\nTipo: Público\n\nUsuarios: 10927\n─✰─ׄ─ׅ─ׄ─✰─ׄ─✰─ׄ✰─ׄ\n\n`
-global.packname = `🩵 Makima 2.0 Bot 🩵`
-global.author = `Stickers Makima`;
-global.wm = '⏤͟͞ू⃪  ̸̷͢𝐌a͟𝐤i͟𝐦a͟ 2.0 𝐁𖹭t͟𑁯ᰍ';
-global.titulowm = '⏤͟͞ू⃪  ̸̷͢𝐌a͟𝐤i͟𝐦a͟ 2.0 𝐁𖹭t͟𑁯ᰍ';
-global.igfg = '𓆩‌۫᷼ ִֶָღܾ݉͢ғ꯭ᴇ꯭፝ℓɪ꯭ͨא𓆪'
-global.botname = 'Makima 2.0 Bot'
-global.dev = '© ⍴᥆ᥕᥱrᥱძ ᑲᥡ Félix Manuel'
-global.textbot = 'MakimaV2 : Félix Manuel'
-global.gt = '͟͞MAkima';
-global.namechannel = '⏤͟͞ू⃪  ̸̷͢𝐌a͟𝐤i͟𝐦a͟ 𝐂𝐡a͟𝐧n͟e͟𝐥𑁯'
+global.baileys = '@whiskeysockets/baileys'
+global.apis = 'https://delirius-apiofc.vercel.app'
 
-//*─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─*
-
-global.moneda = 'MakiCoins'
-
-//• ↳ ◜𝑳𝑰𝑵𝑲𝑺  𝑫𝑬𝒀𝑴𝑶𝑶𝑵 𝑪𝑳𝑼𝑩◞ • 🩵
-global.gp4 = 'https://chat.whatsapp.com/KoJjHo6o3Ew7P5qkjaIh0r' //Grupo Oficial De Makima 
-global.gp1 = 'https://chat.whatsapp.com/KoJjHo6o3Ew7P5qkjaIh0r' //Grupo 2
-global.gp2 = 'https://chat.whatsapp.com/KoJjHo6o3Ew7P5qkjaIh0r'//
-global.channel = 'https://whatsapp.com/channel/0029VbAZcyIIXnlwp79iwu2l' //Canal Oficial
-global.channel2 = 'https://whatsapp.com/channel/0029VbAa5sNCsU9Hlzsn651S' //Canal test 
-global.yt = 'https://www.youtube.com/frasesbebord' //Canal De Youtube
-global.md = 'https://github.com/mantis-has/Makima' //Github Oficial
-global.correo = 'mantisbotmd@gmail.com'
-global.cn ='https://whatsapp.com/channel/0029VbAZcyIIXnlwp79iwu2l';
-
-//*─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─*
-
-global.catalogo = fs.readFileSync('./src/catalogo.jpg');
-global.estilo = { key: {  fromMe: false, participant: `0@s.whatsapp.net`, ...(false ? { remoteJid: "5219992095479-1625305606@g.us" } : {}) }, message: { orderMessage: { itemCount : -999999, status: 1, surface : 1, message: packname, orderTitle: 'Bang', thumbnail: catalogo, sellerJid: '0@s.whatsapp.net'}}}
-global.ch = {
-ch1: '120363400360651198@newsletter',
-}
-global.multiplier = 70
-
-//*─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─*
+global.APIs = { lolhuman: { url: 'https://api.lolhuman.xyz/api/', key: 'GataDiosV3' },
+skizo: { url: 'https://skizo.tech/api/', key: 'GataDios' },
+alyachan: { url: 'https://api.alyachan.dev/api/', key: null }, 
+neoxr: { url: 'https://api.neoxr.eu/api', key: 'GataDios' },
+fgmods: { url: 'https://api.fgmods.xyz/api', key: 'elrebelde21' },
+popcat: { url: 'https://api.popcat.xyz', key: null }}
 
 global.cheerio = cheerio
 global.fs = fs
 global.fetch = fetch
 global.axios = axios
-global.moment = moment   
+global.moment = moment	
 
-//*─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─*
+//------------------------[ Stickers ]-----------------------------
+
+global.packname = '𝐌𝐚𝐤𝐢𝐦𝐚'
+global.author = '𝐅𝐞𝐥𝐢𝐱 𝐌𝐚𝐧𝐮𝐞𝐥'
+
+//------------[ Versión | Nombre | cuentas ]------------
+
+global.wm = '𝗠𝗮𝗸𝗶𝗺𝗮 𝗕𝗼𝘁 𝗠𝗗' 
+global.vs = '1.9.8'
+global.yt = 'https://www.youtube.com/frasesbebor@gmail.com'
+global.tiktok = 'https://www.tiktok.com/Feli'
+global.md = 'https://github.com/mantis-has/Makima'
+global.fb = 'https://www.facebook.com/akinoaynadaqueteimporte'
+global.face = 'https://www.facebook.com/groups/872989990425710/'
+
+global.nna = 'https://whatsapp.com/channel/0029Vb6FW3S2Jl8GHcoBTB0w' //Update
+global.nna2 = 'https://whatsapp.com/channel/0029Vb6FW3S2Jl8GHcoBTB0w' //update
+global.nnaa = 'https://whatsapp.com/channel/0029Vb6Gkkr72WU3oxtrx81o' //Test
+global.nn = 'https://chat.whatsapp.com/GZdFpo11kIQ54pa1lgUiQ9?mode=r_c' //Grupo 1
+global.nnn = 'https://chat.whatsapp.com/K0DIkrutOQI6If1kdZ4l9D?mode=r_c' //Grupo de denji
+global.nnnt = 'https://chat.whatsapp.com/BVDsynSLZd43wqu8cXnLsU?mode=r_c' //Grupo del Colaboracion
+global.nnntt = 'https://chat.whatsapp.com/HpQ5moxR8NOJSZmF0FngeD?mode=r_c' //Socializar
+global.nnnttt = 'https://chat.whatsapp.com/KoJjHo6o3Ew7P5qkjaIh0r?mode=r_c' //A.T.T.M
+global.nnntttt = 'https://chat.whatsapp.com/E9pDOR55DHE9vQE9KXZk3P?mode=r_c' //Grupo ayuda sobre el bot
+global.bot = 'wa.me/18293142989'
+global.redes = [nna, nna2, yt, nn, nnn, nnnt, nnntt, nnnttt, nnntttt, md, tiktok, fb, face]
+
+//------------------------[ Info | Datos ]---------------------------
+
+global.wait = 'Estoy procesando. Porfavor no agas spam.'
+global.waitt = '*⌛ _Cargando..._ ▬▬▭▭▭*'
+global.waittt = '*⌛ _Cargando..._ ▬▬▬▬▭▭*'
+global.waitttt = '*⌛ _Cargando..._ ▬▬▬▬▬▬▭*'
+global.waittttt = '*⌛ _Cargando..._ ▬▬▬▬▬▬▬*'
+global.rg = '『 Resultados 』\n\n'
+global.ag = '『 Advertencia 』\n\n'
+global.iig = '『 Información 』\n\n'
+global.fg = '『 Error 』\n\n'
+global.mg = '『 Formato incorrecto 』\n\n'
+global.eeg = '『 Reporte 』\n\n'
+global.eg = '『 Éxito 』\n\n'
+
+//-------------------------[ IMAGEN ]------------------------------
+//global.img = "https://qu.ax/caXVr.jpg"
+global.img1 = 'https://qu.ax/iQNpS.jpg'
+global.img2 = 'https://qu.ax/gYzBQ.jpg'
+
+global.imagen = fs.readFileSync('./Menu2.jpg')
+global.imagen1 = fs.readFileSync('./media/Menu1.jpg')
+global.imagen2 = fs.readFileSync('./media/Menu2.jpg')
+global.imagen3 = fs.readFileSync('./media/Menu3.jpg')
+global.imagen4 = fs.readFileSync('./media/Menu4.jpg')
+global.imagen5 = 'https://qu.ax/caXVr.jpg'
+global.imagen6 = 'https://qu.ax/iQNpS.jpg'
+global.menu18 = 'https://qu.ax/gYzBQ.jpg'
+global.vid1 = 'https://qu.ax/gYzBQ.jpg'
+global.img = [imagen, imagen1, imagen2, imagen3, imagen4]
+global.imageUrl = ["https://qu.ax/gYzBQ.jpg", "https://qu.ax/iQNpS.jpg", "https://qu.ax/caXVr.jpg"]
+
+//----------------------------[ NIVELES | RPG ]---------------------------------
+
+global.multiplier = 850 // Cuanto más alto, más difícil subir de nivel
+global.maxwarn = '4' // máxima advertencias
+
+//---------------[ IDs de canales ]----------------
+
+global.ch = {
+ch1: '120363420059734524@newsletter', 
+ch2: '120363402078116190@newsletter',
+ch3: '120363422990331018@newsletter',
+}
+
+//----------------------------------------------------
 
 let file = fileURLToPath(import.meta.url)
 watchFile(file, () => {
