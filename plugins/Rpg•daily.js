@@ -1,47 +1,40 @@
-const free = 25
-const prem = 15
+const free = 5000; 
+const expIncrease = 1000; 
 
-var handler = async (m, {conn, isPrems }) => {
-
-let coin = `${pickRandom([5, 6, 7, 9, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 99, 100, 110, 120, 130, 600, 1000, 1500])}` * 1
-let exp = `${pickRandom([500, 600, 700, 800, 900, 999, 1000, 1300, 1500, 1800])}` * 1
-let exppremium = `${pickRandom([1000, 1500, 1800, 2100, 2500, 2900, 3300, 3600, 4000, 4500])}` * 1
-let d = Math.floor(Math.random() * 30)
-global.db.data.users[m.sender].chocolates += d
-global.db.data.users[m.sender].money += d
-let time = global.db.data.users[m.sender].lastclaim + 86400000 //12 Horas
-if (new Date - global.db.data.users[m.sender].lastclaim < 7200000) return conn.reply(m.chat, `🕚 *Vuelve en ${msToTime(time - new Date())}*`, m, )
-global.db.data.users[m.sender].exp += exppremium ? prem : exp
-let str = `🎁 *Recompensa Diaria*
-
-Recursos:
-✨ Xp : *+${isPrems ? exppremium : exp}*
-💎 Diamantes : *+${d}*
-🩵 MakiCoins : *+${coin}*`
-conn.reply(m.chat,str, m, rcanal)
-global.db.data.users[m.sender].lastclaim = new Date * 1
-
+let handler = async (m, { conn, isPrems }) => {
+let user = global.db.data.users[m.sender];
+let now = new Date().getTime();
+let time = user.lastclaim + 86400000;
+if (now - user.lastclaim < 86400000) throw await tr(`「🩵」 Ya reclamaste tu regalo, Vuelve en *${msToTime(time - now)}* para volver a reclamar (mantener la rachas)`)
+if (user.lastclaim && now - user.lastclaim < 172800000) {
+user.dailyStreak = (user.dailyStreak || 0) + 1;
+} else {
+user.dailyStreak = 1;
 }
-handler.help = ['daily', 'claim']
-handler.tags = ['rpg']
-handler.command = ['daily', 'claim']
+let currentExp = free + (user.dailyStreak - 1) * expIncrease;
+let nextExp = currentExp + expIncrease;
+user.exp += currentExp;
+user.lastclaim = now;
+let text = `*🔸 ${await tr("HAS RECLAMADO", "𝐇𝐀𝐒 RECLAMADO")}:* ${await tr("Tu recompensa Diaria de")}: *${formatNumber(currentExp)} XP* (Día ${user.dailyStreak})\n\n_*${await tr("Mañana no te olvides de seguir reclamado tu recompensa, ganaras")}: ${formatK(nextExp)} (${formatNumber(nextExp)}) XP*_`;
+conn.fakeReply(m.chat, text, '13135550002@s.whatsapp.net', await tr(`🎁 Recompensa diaria 🎁`), 'status@broadcast', null, fake);
+};
+handler.help = ['daily', 'claim'];
+handler.tags = ['econ'];
+handler.command = ['daily', 'claim'];
+handler.register = true;
 
-handler.register = true
-
-export default handler
-
-function pickRandom(list) {
-return list[Math.floor(Math.random() * list.length)]}
+export default handler;
 
 function msToTime(duration) {
-var milliseconds = parseInt((duration % 1000) / 100),
-seconds = Math.floor((duration / 1000) % 60),
-minutes = Math.floor((duration / (1000 * 60)) % 60),
-hours = Math.floor((duration / (1000 * 60 * 60)) % 24)
+    var hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+    var minutes = Math.floor((duration / (1000 * 60)) % 60);
+    return `${hours} Horas ${minutes} Minutos`;
+}
 
-hours = (hours < 10) ? '0' + hours : hours
-minutes = (minutes < 10) ? '0' + minutes : minutes
-seconds = (seconds < 10) ? '0' + seconds : seconds
+function formatNumber(num) {
+    return num.toLocaleString('en').replace(/,/g, '.'); 
+}
 
-return hours + ' Horas ' + minutes + ' Minutos'
+function formatK(num) {
+    return (num / 1000).toFixed(1) + 'k'; 
 }
