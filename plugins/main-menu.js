@@ -17,7 +17,7 @@ let handler = async (m, { conn, usedPrefix, text, command }) => {
       global.bannerUrls[conn.user.jid] = 'https://qu.ax/XkPVZ.jpg'; // URL inicial de la imagen del menú
     }
     if (!global.botNames[conn.user.jid]) {
-      global.botNames[conn.user.jid] = 'Bot'; // Nombre inicial del bot
+      global.botNames[conn.user.jid] = 'Makima'; // Nombre inicial del bot
     }
 
     // Verificar si el usuario es el socket activo
@@ -99,7 +99,7 @@ let handler = async (m, { conn, usedPrefix, text, command }) => {
       const error = '❌';
 
       let botname = global.botNames[conn.user.jid]; // Nombre del bot específico para esta sesión
-      let menu = `¡Hola! ${taguser} soy  ${(conn.user.jid == global.conn.user.jid ? '(OficialBot)' : '(Sub-Bot)')} 
+      let menu = `¡Hola! ${taguser} soy ${botname}  ${(conn.user.jid == global.conn.user.jid ? '(OficialBot)' : '(Sub-Bot)')} 
 
 ╭━━I N F O-B O-T━━
 ┃Creador: 𓆩‌۫᷼ ִֶָღܾ݉͢ғ꯭ᴇ꯭፝ℓɪ꯭ͨא𓆪
