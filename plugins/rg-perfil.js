@@ -59,6 +59,7 @@ var handler = async (m, { conn }) => {
 ┃💎 *Nivel:* ${level}
 ┃💎 *Experiencia:* ${exp}
 ┃💎 *Rango:* ${role}
+┃💎 Casado con ${pareja}
 ╰━━━━━━━━━━━━━
 > © Desarrollado por Félix 
 `.trim()
