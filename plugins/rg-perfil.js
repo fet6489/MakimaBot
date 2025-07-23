@@ -51,11 +51,13 @@ var handler = async (m, { conn }) => {
   let noprem = `
 『 PERFIL DEL USUARIO 』
 
-🔥 *usuario:* ${username}
-💥 *tag:* @${who.replace(/@.+/, '')}
-🔥 *Registrado:* ${registered ? '✅ Activado' : '❌ No'}
+💎 *usuario:* ${username}
+🩵 *tag:* @${who.replace(/@.+/, '')}
+💎 *Registrado:* ${registered ? '✅ Activado' : '❌ No'}
 
 ╭━━━━━━━━━━━━━╮
+┃💎 *Diamantes:* ${coins.toLocaleString()}
+┃💎 *Diamantes en el banco:* ${bankCoins.toLocaleString()}
 ┃💎 *Nivel:* ${level}
 ┃💎 *Experiencia:* ${exp}
 ┃💎 *Rango:* ${role}
