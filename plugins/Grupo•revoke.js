@@ -2,7 +2,7 @@ var handler = async (m, { conn }) => {
 
 let res = await conn.groupRevokeInvite(m.chat)
 let gruf = m.chat
-conn.reply(m.sender, 'https://chat.whatsapp.com/' + await conn.groupInviteCode(gruf), m, rcanal)
+conn.reply(m.sender, 'https://chat.whatsapp.com/' + await conn.groupInviteCode(gruf), m, fake)
 
 }
 handler.help = ['revoke']
