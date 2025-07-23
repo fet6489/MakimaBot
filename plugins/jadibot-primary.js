@@ -1,33 +1,41 @@
 import ws from 'ws';
 
 let handler = async (m, { conn, usedPrefix, args }) => {
-if (!args[0]) return m.reply(await tr(`⚠️ Etiquetas en numero de algun bot\nEjemplo: ${usedPrefix}setprimary @tag`));
+  if (!args[0] && (!m.mentionedJid || m.mentionedJid.length === 0))
+    return m.reply(`⚠️ Etiqueta o escribe el número de algún sub-bot\nEjemplo: ${usedPrefix}setprimary @tag`);
 
-const users = [...new Set([...global.conns.filter((conn) => conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED).map((conn) => conn)])];
-let botJid;
-let selectedBot;
+  const subBots = global.conns.filter(c => 
+    c?.user?.jid && 
+    c?.ws?.socket && 
+    c.ws.socket.readyState !== ws.CLOSED
+  );
 
-if (m.mentionedJid && m.mentionedJid.length > 0) {
-botJid = m.mentionedJid[0];
-if (botJid === conn.user.jid || global.conn.user.jid) {
-selectedBot = conn;
-} else {
-selectedBot = users.find(conn => conn.user.jid === botJid);
-}} 
-else {
-botJid = args[0].replace(/[^0-9]/g, '') + '@s.whatsapp.net';
-if (botJid === conn.user.jid) {
-selectedBot = conn;
-} else {
-selectedBot = users.find(conn => conn.user.jid === botJid);
-}}
+  if (!subBots.length) 
+    return m.reply('⚠️ No hay sub-bots activos.');
 
-if (!selectedBot) return m.reply(await tr("⚠️ No se encontró un bot conectado con esa mención o número. Usa /listjadibot para ver los bots disponibles."));
-let chat = global.db.data.chats[m.chat];
-chat.primaryBot = botJid;
-conn.sendMessage(m.chat, { text: `✅ El bot @${botJid.split('@')[0]} ${await tr("ha sido establecido como primario en este grupo. Los demás bots no responderán aquí.")}`, mentions: [botJid] }, { quoted: m });
+  let botJid = '';
+  let selectedBot = null;
+
+  if (m.mentionedJid && m.mentionedJid.length > 0) {
+    botJid = m.mentionedJid[0];
+    selectedBot = subBots.find(c => c.user.jid === botJid);
+  } else {
+
+    let num = args[0].replace(/[^0-9]/g, '');
+    botJid = num + '@s.whatsapp.net';
+    selectedBot = subBots.find(c => c.user.jid === botJid);
+  }
+
+  if (!selectedBot)
+    return m.reply("⚠️ No se encontró un sub-bot conectado con esa mención o número. Usa /listjadibot para ver los disponibles.");
+
+  if (!global.db.data.chats[m.chat]) global.db.data.chats[m.chat] = {};
+
+  global.db.data.chats[m.chat].primaryBot = botJid;
+  m.reply(`✅ El sub-bot @${botJid.split('@')[0]} ha sido establecido como primario en este grupo. Los demás sub-bots no responderán aquí.`, false, { mentions: [botJid] });
 };
-handler.help = ['setprimary <@tag>'];
+
+handler.help = ['setprimary <@tag|número>'];
 handler.tags = ['jadibot'];
 handler.command = ['setprimary'];
 handler.group = true;
