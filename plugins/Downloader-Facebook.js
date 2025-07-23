@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const handler = async (m, { text, conn, args }) => {
   if (!args[0]) {
-    return conn.reply(m.chat, '🚩 Por favor, ingresa un enlace de Facebook.', m, rcanal);
+    return conn.reply(m.chat, '🩵 Por favor, ingresa un enlace de Facebook.', m, fake);
   }
 
   const fbUrl = args[0];
