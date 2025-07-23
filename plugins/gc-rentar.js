@@ -28,9 +28,9 @@ const handler = async (m, {conn, command, args}) => {
 ││ *Gastado* : -${xpperestrellas * count} Estrellas 🌟
 ││ *Tokens Disponibles* : ${userRents[m.sender].tokens}
 │╰──────────────┄
-└──────────────`, m, rcanal);
+└──────────────`, m, fake);
   } else {
-    conn.reply(m.chat, `😔 Lo siento, no tienes suficiente *Estrellas 🌟* para comprar *${count}* Token`, m, rcanal);
+    conn.reply(m.chat, `😔 Lo siento, no tienes suficiente *Estrellas 🌟* para comprar *${count}* Token`, m, fake);
   }
 };
 handler.help = ['rentar'];
