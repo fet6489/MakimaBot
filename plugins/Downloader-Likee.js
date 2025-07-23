@@ -1,48 +1,57 @@
-/* 
-- Downloader Likee By Jose
-- Power By Team Code Titans
-- https://whatsapp.com/channel/0029ValMlRS6buMFL9d0iQ0S 
-*/
-// *🍁 [ Likee Video Downloader ]*
+//Código elaborado por: https://github.com/elrebelde21
 
-import axios from 'axios';
+import fs from 'fs';
+import path from 'path';
 
-let handler = async (m, { conn, usedPrefix, command, text }) => {
-  if (!text) return conn.reply(m.chat, '🚩 Ingresa la URL de Likee que deseas descargar.\n
-`Ejemplo:`\n' + `> *${usedPrefix + command}* https://l.likee.video/v/E4JSK7`, m, rcanal);
+const mainFilePath = path.resolve('./database/claimed_characters.json');
 
-  await m.react('🕓');
-
+function loadCharacters(filePath) {
+  if (!fs.existsSync(filePath)) {
+    fs.writeFileSync(filePath, '[]', 'utf-8');
+  }
   try {
-    const response = await axios.get(`https://apis-starlights-team.koyeb.app/starlight/like-downloader?url=${encodeURIComponent(text)}`);
-    
-    if (response.data) {
-      const videoData = response.data;
-
-      let txt = '`乂  L I K E E  -  D O W N L O A D`\n
-';
-      txt += `    ✩  *Creador* : ${videoData.creator}\n`;
-      txt += `    ✩  *Caption* : ${videoData.caption}\n
-`;
-      txt += `> 🚩 Enlace con marca de agua: ${videoData.links.watermark}\n`;
-      txt += `> 🚩 Enlace sin marca de agua: ${videoData.links['no watermark']}`;
-
-      await conn.sendMessage(m.chat, { video: { url: videoData.links['no watermark'] }, caption: txt }, { quoted: m });
-      await m.react('✅');
-    } else {
-      await m.react('✖️');
-      await conn.reply(m.chat, 'Error al obtener datos desde Likee.', m);
-    }
+    const data = fs.readFileSync(filePath, 'utf-8');
+    return data ? JSON.parse(data) : [];
   } catch (error) {
-    console.error(error);
-    await m.react('✖️');
-    await conn.reply(m.chat, 'Hubo un error al procesar la solicitud. Intenta de nuevo más tarde.', m);
+    console.error(`Error al leer el archivo JSON (${filePath}):`, error);
+    return [];
   }
 }
 
-handler.tags = ['downloader'];
-handler.help = ['likee *<url>*'];
-handler.command = ['likee', 'likedl', 'likeedownloader'];
+async function handler(m, { conn, args }) {
+const characters = loadCharacters(mainFilePath);
+let targetUser = m.sender; 
+if (m.mentionedJid && m.mentionedJid.length > 0) {
+targetUser = m.mentionedJid[0]; 
+}
+const userCharacters = characters.filter(c => c.claimedBy === targetUser);
+if (userCharacters.length === 0) {
+const targetUsername = targetUser === m.sender ? await tr('tú') : `@${targetUser.split('@')[0]}`;
+return conn.reply(m.chat, `*${targetUsername}* ${await tr("no tienes ningún personaje en tu harem")}.`, m, { mentions: [targetUser]});
+}
+
+const itemsPerPage = 6; 
+const totalPages = Math.ceil(userCharacters.length / itemsPerPage);
+let page = parseInt(args[0]) || 1; 
+if (page < 1 || page > totalPages) {
+page = 1; 
+}
+const startIndex = (page - 1) * itemsPerPage;
+const endIndex = startIndex + itemsPerPage;
+const currentPageCharacters = userCharacters.slice(startIndex, endIndex);
+let message = `*\`🛍 ${await tr("Inventario de Compras")}\`*\n\n`;
+message += `*• ${await tr("Usuario")}:* @${targetUser.split('@')[0]}\n`;
+message += `*• ${await tr("Personajes comprados")}:* ${userCharacters.length}\n\n`;
+message += `*\`○ ${await tr("Lista de Personajes")}:\`*\n`;
+currentPageCharacters.forEach((character, index) => {
+message += `${index + 1}. *${character.name}* (${character.price.toLocaleString()})\n`;
+});
+message += `\n> *• ${await tr("Página")}:* ${page} ${await tr("de")} ${totalPages}`;
+conn.reply(m.chat, message, m, {mentions: [targetUser] });
+}
+handler.help = ['harem @tag'];
+handler.tags = ['gacha'];
+handler.command = ['harem'];
 handler.register = true;
 
 export default handler;
