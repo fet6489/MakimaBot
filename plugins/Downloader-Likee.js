@@ -1,57 +1,79 @@
-//Código elaborado por: https://github.com/elrebelde21
+import { promises as fs } from 'fs'
 
-import fs from 'fs';
-import path from 'path';
+const charactersFilePath = './src/database/characters.json'
+const haremFilePath = './src/database/harem.json'
 
-const mainFilePath = path.resolve('./database/claimed_characters.json');
-
-function loadCharacters(filePath) {
-  if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath, '[]', 'utf-8');
-  }
-  try {
-    const data = fs.readFileSync(filePath, 'utf-8');
-    return data ? JSON.parse(data) : [];
-  } catch (error) {
-    console.error(`Error al leer el archivo JSON (${filePath}):`, error);
-    return [];
-  }
+async function loadCharacters() {
+    try {
+        const data = await fs.readFile(charactersFilePath, 'utf-8')
+        return JSON.parse(data)
+    } catch (error) {
+        throw new Error('No se pudo cargar el archivo characters.json.')
+    }
 }
 
-async function handler(m, { conn, args }) {
-const characters = loadCharacters(mainFilePath);
-let targetUser = m.sender; 
-if (m.mentionedJid && m.mentionedJid.length > 0) {
-targetUser = m.mentionedJid[0]; 
-}
-const userCharacters = characters.filter(c => c.claimedBy === targetUser);
-if (userCharacters.length === 0) {
-const targetUsername = targetUser === m.sender ? await tr('tú') : `@${targetUser.split('@')[0]}`;
-return conn.reply(m.chat, `*${targetUsername}* ${await tr("no tienes ningún personaje en tu harem")}.`, m, { mentions: [targetUser]});
+async function loadHarem() {
+    try {
+        const data = await fs.readFile(haremFilePath, 'utf-8')
+        return JSON.parse(data)
+    } catch (error) {
+        return []
+    }
 }
 
-const itemsPerPage = 6; 
-const totalPages = Math.ceil(userCharacters.length / itemsPerPage);
-let page = parseInt(args[0]) || 1; 
-if (page < 1 || page > totalPages) {
-page = 1; 
-}
-const startIndex = (page - 1) * itemsPerPage;
-const endIndex = startIndex + itemsPerPage;
-const currentPageCharacters = userCharacters.slice(startIndex, endIndex);
-let message = `*\`🛍 ${await tr("Inventario de Compras")}\`*\n\n`;
-message += `*• ${await tr("Usuario")}:* @${targetUser.split('@')[0]}\n`;
-message += `*• ${await tr("Personajes comprados")}:* ${userCharacters.length}\n\n`;
-message += `*\`○ ${await tr("Lista de Personajes")}:\`*\n`;
-currentPageCharacters.forEach((character, index) => {
-message += `${index + 1}. *${character.name}* (${character.price.toLocaleString()})\n`;
-});
-message += `\n> *• ${await tr("Página")}:* ${page} ${await tr("de")} ${totalPages}`;
-conn.reply(m.chat, message, m, {mentions: [targetUser] });
-}
-handler.help = ['harem @tag'];
-handler.tags = ['gacha'];
-handler.command = ['harem'];
-handler.register = true;
+let handler = async (m, { conn, args }) => {
+    try {
+        const characters = await loadCharacters()
+        const harem = await loadHarem()
+        let userId
 
-export default handler;
+        if (m.quoted && m.quoted.sender) {
+            userId = m.quoted.sender
+        } else if (args[0] && args[0].startsWith('@')) {
+            userId = args[0].replace('@', '') + '@s.whatsapp.net'
+        } else {
+            userId = m.sender
+        }
+
+        const userCharacters = characters.filter(character => character.user === userId)
+
+        if (userCharacters.length === 0) {
+            await conn.reply(m.chat, '❀ No tiene personajes reclamados en tu harem.', m)
+            return
+        }
+
+        const page = parseInt(args[1]) || 1
+        const charactersPerPage = 50
+        const totalCharacters = userCharacters.length
+        const totalPages = Math.ceil(totalCharacters / charactersPerPage)
+        const startIndex = (page - 1) * charactersPerPage
+        const endIndex = Math.min(startIndex + charactersPerPage, totalCharacters)
+
+        if (page < 1 || page > totalPages) {
+            await conn.reply(m.chat, `❀ Página no válida. Hay un total de *${totalPages}* páginas.`, m)
+            return
+        }
+
+        let message = `✿ Personajes reclamados ✿\n`
+        message += `⌦ Usuario: @${userId.split('@')[0]}\n`
+        message += `♡ Personajes: *(${totalCharacters}):*\n\n`
+
+        for (let i = startIndex; i < endIndex; i++) {
+            const character = userCharacters[i]
+            message += `» *${character.name}* (*${character.value}*)\n`
+        }
+
+        message += `\n> ⌦ _Página *${page}* de *${totalPages}*_`
+
+        await conn.reply(m.chat, message, m, { mentions: [userId] })
+    } catch (error) {
+        await conn.reply(m.chat, `✘ Error al cargar el harem: ${error.message}`, m)
+    }
+}
+
+handler.help = ['harem [@usuario] [pagina]']
+handler.tags = ['anime']
+handler.command = ['harem', 'claims', 'waifus']
+handler.group = true
+
+export default handler
