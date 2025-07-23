@@ -1,60 +1,20 @@
-const fs = require("fs");
-const path = require("path");
-
-const handler = async (msg, { conn, args }) => {
-  const rawID = conn.user?.id || "";
-  const subbotID = rawID.split(":")[0] + "@s.whatsapp.net";
-  const botNumber = rawID.split(":")[0].replace(/[^0-9]/g, "");
-
-  const prefixPath = path.resolve("prefixes.json");
-  let prefixes = {};
-  if (fs.existsSync(prefixPath)) {
-    prefixes = JSON.parse(fs.readFileSync(prefixPath, "utf-8"));
+const handler = async (m, {isOwner, isAdmin, conn, text, participants, args, command, usedPrefix}) => {
+  if (usedPrefix == 'a' || usedPrefix == 'A') return;
+  if (!(isAdmin || isOwner)) {
+    global.dfail('admin', m, conn);
+    return;
   }
-  const usedPrefix = prefixes[subbotID] || ".";
-
-  const chatId = msg.key.remoteJid;
-  const senderJid = msg.key.participant || msg.key.remoteJid;
-  const senderNum = senderJid.replace(/[^0-9]/g, "");
-
-  if (!chatId.endsWith("@g.us")) {
-    return await conn.sendMessage(chatId, {
-      text: "「🩵」 *Este comando solo puede ser usado en grupos.*"
-    }, { quoted: msg });
+  const pesan = args.join` `;
+  const colombia = `💎 *Mensaje:* ${pesan}`;
+  let teks = `🩵 *MENSIONANDO AL GRUPO*\n${colombia}\n\n❦︎ *Miembros:*\n`;
+  for (const mem of participants) {
+    teks += `@${mem.id.split('@')[0]}\n`;
   }
-
-  const metadata = await conn.groupMetadata(chatId);
-  const participants = metadata.participants;
-
-  // Verificación de permisos
-  const participant = participants.find(p => p.id.includes(senderNum));
-  const isAdmin = participant?.admin === "admin" || participant?.admin === "superadmin";
-  const isBot = botNumber === senderNum;
-
-  if (!isAdmin && !isBot) {
-    return await conn.sendMessage(chatId, {
-      text: "「🩵」Este comando solo puede ser usado por admins o el bot.."
-    }, { quoted: msg });
-  }
-
-  const mentionList = participants.map(p => `➥ @${p.id.split("@")[0]}`).join("\n");
-  const extraMsg = args.join(" ");
-  let finalMsg = "━〔 *MENSION GRUPAL* 〕➪\n";
-  finalMsg += "MAKIMA 2.0 BOT\n";
-  if (extraMsg.trim().length > 0) {
-    finalMsg += `\n💎 Mensaje: ${extraMsg}\n\n`;
-  } else {
-    finalMsg += "\n";
-  }
-  finalMsg += mentionList;
-
-  const mentionIds = participants.map(p => p.id);
-
-  await conn.sendMessage(chatId, {
-    text: finalMsg,
-    mentions: mentionIds
-  }, { quoted: msg });
+  conn.sendMessage(m.chat, {text: teks, mentions: participants.map((a) => a.id)} );
 };
-
-handler.command = ["tagall", "invocar", "todos"];
-module.exports = handler;
+handler.help = ['tagall *<mesaje>*', 'invocar *<mesaje>*'];
+handler.tags = ['grupo'];
+handler.command = ['tagall', 'invocar'];
+handler.admin = true;
+handler.group = true;
+export default handler;
