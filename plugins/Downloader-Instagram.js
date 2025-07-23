@@ -2,29 +2,29 @@ import axios from 'axios';
 
 const handler = async (m, { text, conn, args }) => {
   if (!args[0]) {
-    return conn.reply(m.chat, '🐬 𝙋𝙤𝙧 𝙛𝙖𝙫𝙤𝙧, 𝙞𝙣𝙜𝙧𝙚𝙨𝙖 𝙪𝙣 𝙚𝙣𝙡𝙖𝙘𝙚 𝙙𝙚 𝙄𝙣𝙨𝙩𝙖𝙜𝙧𝙖𝙢.', m, rcanal);
+    return conn.reply(m.chat, '🩵 𝙋𝙤𝙧 𝙛𝙖𝙫𝙤𝙧, 𝙞𝙣𝙜𝙧𝙚𝙨𝙖 𝙪𝙣 𝙚𝙣𝙡𝙖𝙘𝙚 𝙙𝙚 𝙄𝙣𝙨𝙩𝙖𝙜𝙧𝙖𝙢.', m, fake);
   }
 
   const instagramUrl = args[0];
   let res;
 
   try {
-    await m.react('🐬');
+    await m.react('💎');
     res = await axios.get(`https://apis-starlights-team.koyeb.app/starlight/instagram-dl?url=${encodeURIComponent(instagramUrl)}`);
   } catch (e) {
-    return conn.reply(m.chat, '🐬 𝙀𝙧𝙧𝙤𝙧 𝙖𝙡 𝙤𝙗𝙩𝙚𝙣𝙚𝙧 𝙙𝙖𝙩𝙤𝙨. 𝙑𝙚𝙧𝙞𝙛𝙞𝙘𝙖 𝙚𝙡 𝙚𝙣𝙡𝙖𝙘𝙚.', m);
+    return conn.reply(m.chat, '🩵 𝙀𝙧𝙧𝙤𝙧 𝙖𝙡 𝙤𝙗𝙩𝙚𝙣𝙚𝙧 𝙙𝙖𝙩𝙤𝙨. 𝙑𝙚𝙧𝙞𝙛𝙞𝙘𝙖 𝙚𝙡 𝙚𝙣𝙡𝙖𝙘𝙚.', m);
   }
 
   const result = res.data;
   if (!result || result.data.length === 0) {
-    return conn.reply(m.chat, '🐬 𝙉𝙤 𝙨𝙚 𝙚𝙣𝙘𝙤𝙣𝙩𝙧𝙖𝙧𝙤𝙣 𝙧𝙚𝙨𝙪𝙡𝙩𝙖𝙙𝙤𝙨.', m);
+    return conn.reply(m.chat, '🩵 𝙉𝙤 𝙨𝙚 𝙚𝙣𝙘𝙤𝙣𝙩𝙧𝙖𝙧𝙤𝙣 𝙧𝙚𝙨𝙪𝙡𝙩𝙖𝙙𝙤𝙨.', m);
   }
 
   const videoData = result.data[0]; 
   const videoUrl = videoData.dl_url;
 
   if (!videoUrl) {
-    return conn.reply(m.chat, '🪼 𝙉𝙤 𝙨𝙚 𝙚𝙣𝙘𝙤𝙣𝙩𝙧ó 𝙪𝙣 𝙚𝙣𝙡𝙖𝙘𝙚 𝙙𝙚 𝙙𝙚𝙨𝙘𝙖𝙧𝙜𝙖 𝙫á𝙡𝙞𝙙𝙤.', m);
+    return conn.reply(m.chat, '💎 𝙉𝙤 𝙨𝙚 𝙚𝙣𝙘𝙤𝙣𝙩𝙧ó 𝙪𝙣 𝙚𝙣𝙡𝙖𝙘𝙚 𝙙𝙚 𝙙𝙚𝙨𝙘𝙖𝙧𝙜𝙖 𝙫á𝙡𝙞𝙙𝙤.', m);
   }
 
   const maxRetries = 3;
@@ -37,7 +37,7 @@ const handler = async (m, { text, conn, args }) => {
     } catch (e) {
       if (attempt === maxRetries) {
         await m.react('❌');
-        return conn.reply(m.chat, '🐬 𝙀𝙧𝙧𝙤𝙧 𝙖𝙡 𝙚𝙣𝙫𝙞𝙖𝙧 𝙚𝙡 𝙫𝙞𝙙𝙚𝙤 𝙙𝙚𝙨𝙥𝙪é𝙨 𝙙𝙚 𝙫𝙖𝙧𝙞𝙤𝙨 𝙞𝙣𝙩𝙚𝙣𝙩𝙤𝙨.', m);
+        return conn.reply(m.chat, '🩵 𝙀𝙧𝙧𝙤𝙧 𝙖𝙡 𝙚𝙣𝙫𝙞𝙖𝙧 𝙚𝙡 𝙫𝙞𝙙𝙚𝙤 𝙙𝙚𝙨𝙥𝙪é𝙨 𝙙𝙚 𝙫𝙖𝙧𝙞𝙤𝙨 𝙞𝙣𝙩𝙚𝙣𝙩𝙤𝙨.', m);
       }
       await new Promise(resolve => setTimeout(resolve, 1000));
     }
