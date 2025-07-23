@@ -50,7 +50,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 🩵 *Velocidad:* ${(speed * 1000).toFixed(0) / 1000}s
 `.trim();
 
-  await conn.sendFile(m.chat, pp, 'estado.jpg', makimabot, fkontak, null, rcanal);
+  await conn.sendFile(m.chat, pp, 'estado.jpg', makimabot, fkontak, null, fake);
 };
 
 handler.help = ['status'];
