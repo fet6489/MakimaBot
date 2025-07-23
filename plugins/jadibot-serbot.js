@@ -90,7 +90,7 @@ fs.mkdirSync(pathblackJadiBot, { recursive: true })}
 try {
 args[0] && args[0] != undefined ? fs.writeFileSync(pathCreds, JSON.stringify(JSON.parse(Buffer.from(args[0], "base64").toString("utf-8")), null, '\t')) : ""
 } catch {
-conn.reply(m.chat, `${emoji} Use correctamente el comando » ${usedPrefix + command} code`, m)
+conn.reply(m.chat, `${emoji} Use correctamente el comando » ${usedPrefix + command} code`, m, fake)
 return
 }
 
