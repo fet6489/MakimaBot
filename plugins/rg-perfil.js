@@ -57,7 +57,6 @@ var handler = async (m, { conn }) => {
 
 ╭━━━━━━━━━━━━━╮
 ┃💎 *Diamantes:* ${coins}
-┃💎 *Diamantes en el banco:* ${bankCoins}
 ┃💎 *Nivel:* ${level}
 ┃💎 *Experiencia:* ${exp}
 ┃💎 *Rango:* ${role}
