@@ -25,7 +25,7 @@ var handler = async (m, { usedPrefix, command }) => {
                 const errorLineMatch = stackLines[0].match(/:(\d+):\d+/) 
                 const errorLine = errorLineMatch ? errorLineMatch[1] : 'Desconocido'
 
-                response += `📣 *Error en:* ${file}\n\n> ● Mensaje: ${error.message}\n> ● Número de línea: ${errorLine}\n\n> Errores de archivos del bot`
+                response += `📣 *Error en:* ${file}\n\n> ● Mensaje: ${error.message}\n> ● Número de línea: ${errorLine}\n\n`
             }
         }
 
