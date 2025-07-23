@@ -20,7 +20,6 @@ let handler = async (m, { conn, usedPrefix, args }) => {
     botJid = m.mentionedJid[0];
     selectedBot = subBots.find(c => c.user.jid === botJid);
   } else {
-
     let num = args[0].replace(/[^0-9]/g, '');
     botJid = num + '@s.whatsapp.net';
     selectedBot = subBots.find(c => c.user.jid === botJid);
@@ -32,7 +31,10 @@ let handler = async (m, { conn, usedPrefix, args }) => {
   if (!global.db.data.chats[m.chat]) global.db.data.chats[m.chat] = {};
 
   global.db.data.chats[m.chat].primaryBot = botJid;
-  m.reply(`✅ El sub-bot @${botJid.split('@')[0]} ha sido establecido como primario en este grupo. Los demás sub-bots no responderán aquí.`, false, { mentions: [botJid] });
+  await conn.sendMessage(m.chat, {
+    text: `✅ El sub-bot @${botJid.split('@')[0]} ha sido establecido como primario en este grupo. Los demás sub-bots no responderán aquí.`,
+    mentions: [botJid]
+  }, { quoted: m });
 };
 
 handler.help = ['setprimary <@tag|número>'];
