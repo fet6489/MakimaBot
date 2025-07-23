@@ -463,7 +463,7 @@ throw false
 global.opts['swonly'] = isEnable
 break
 default:
-if (!/[01]/.test(command)) return await conn.reply(m.chat, miniopcion, m, rcanal);
+if (!/[01]/.test(command)) return await conn.reply(m.chat, miniopcion, m, fake);
 throw false;
 }
 conn.reply(m.chat, `🩵  *La función ${type} fue ${isEnable ? 'Activada' : 'Desactivada'} en este ${isAll ? 'Bot' : isUser ? '' : 'Chat.'}*`, m, fake, )
