@@ -1,6 +1,6 @@
 const handler = async (m, {conn, args, groupMetadata, participants, usedPrefix, command, isBotAdmin, isSuperAdmin}) => {
-  if (!args[0]) return conn.reply(m.chat, `💎 Ingresa Algun Prefijo De Un Pais\n🩵Ejemplo: ${usedPrefix + command} +212`, m, rcanal);
-  if (isNaN(args[0])) return conn.reply(m.chat, `💎 Ingrese Algun Prefijo De Un Pais\n🩵Ejemplo: ${usedPrefix + command} +212`, m, rcanal);
+  if (!args[0]) return conn.reply(m.chat, `💎 Ingresa Algun Prefijo De Un Pais\n🩵Ejemplo: ${usedPrefix + command} +212`, m, fake);
+  if (isNaN(args[0])) return conn.reply(m.chat, `💎 Ingrese Algun Prefijo De Un Pais\n🩵Ejemplo: ${usedPrefix + command} +212`, m, fake);
   const lol = args[0].replace(/[+]/g, '');
   const ps = participants.map((u) => u.id).filter((v) => v !== conn.user.jid && v.startsWith(lol || lol));
   const bot = global.db.data.settings[conn.user.jid] || {};
@@ -14,7 +14,7 @@ const handler = async (m, {conn, args, groupMetadata, participants, usedPrefix, 
     case 'kicknum':
       if (!bot.restrict) return conn.reply(m.chat, '💎 *¡Este Comando Esta Desactivado por el creador del Bot!*', m, rcanal);
       if (!isBotAdmin) return m.reply('💎 *El bot no es admin*');
-      await conn.reply(m.chat, `💎 *Eliminando...*`, m, rcanal);
+      await conn.reply(m.chat, `💎 *Eliminando...*`, m, fake);
       const ownerGroup = m.chat.split`-`[0] + '@s.whatsapp.net';
       const users = participants.map((u) => u.id).filter((v) => v !== conn.user.jid && v.startsWith(lol || lol));
       for (const user of users) {
