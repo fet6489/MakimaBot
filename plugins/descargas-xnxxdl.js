@@ -33,7 +33,7 @@ delete userRequests[m.sender];
 }};
 handler.help = ['tiktoksearch <texto>'];
 handler.tags = ['downloader'];
-handler.command = ['tiktoksearch', 'ttsearch'];
+handler.command = ['tiktoksearsh', 'ttsearsh'];
 handler.register = true;
 handler.limit = 4;
 
