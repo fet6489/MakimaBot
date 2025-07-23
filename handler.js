@@ -8,6 +8,12 @@ import fs from 'fs';
 import chalk from 'chalk';
 import ws from 'ws';
 
+if (m.isGroup && global.db?.data?.chats?.[m.chat]?.primaryBot) {
+  const primaryBot = global.db.data.chats[m.chat].primaryBot;
+  if ((conn.user.jid || conn.user.id) !== primaryBot) {
+    return;
+  }
+}
 
 const { proto } = (await import('@whiskeysockets/baileys')).default
 const isNumber = x => typeof x === 'number' && !isNaN(x)
