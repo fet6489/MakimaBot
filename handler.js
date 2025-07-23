@@ -543,4 +543,4 @@ const msg = {
   unreg: '「🩵」¡Hey! no estas registrado, registrate para usar mis comandos\n\n/Reg nombre.edad\n\n! Ejemplo: _/Reg Félix.14_',
   restrict: '「💎」Este comando fue desactivado por mi Creador\n\> Félix Manuel.'
 }[type];
-if (msg) return conn.reply(m.chat, msg, m, rcanal).then(_ => m.react('✖️'))}
+if (msg) return conn.reply(m.chat, msg, m, fake).then(_ => m.react('✖️'))}
