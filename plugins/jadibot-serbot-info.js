@@ -1,82 +1,50 @@
-// Plugin: Lista de Bots Activos (Makima MD)
-// Codigo creado por Félix Manuel (github.com/mantis-has) para sistema Makima MD
+import ws from 'ws'
+import { format } from 'util'
 
-const channelRD = {
-  id: "120363400360651198@newsletter", // Cambia por tu canal si quieres
-  name: "MAKIMA - CHANNEL"
-}
-const thumbnailUrl = 'https://qu.ax/dXOUo.jpg' // Imagen cuadrada y pequeña
-
-async function handler(m, { conn: stars }) {
+let handler = async (m, { conn }) => {
   let uniqueUsers = new Map()
 
+  if (!global.conns || !Array.isArray(global.conns)) {
+    global.conns = []
+  }
+
   global.conns.forEach((conn) => {
-    if (conn.user && conn.ws && conn.ws.socket && conn.ws.socket.readyState === 1) {
+    if (conn.user && conn.ws?.socket?.readyState !== ws.CLOSED) {
       uniqueUsers.set(conn.user.jid, conn)
     }
   })
 
-  // Clasificación de bots (ajusta las condiciones si tienes flags)
-  let users = [...uniqueUsers.values()]
-  let principales = users.filter(v => v.user?.isMain) // Cambia si tienes otro flag para principal
-  let prembots = users.filter(v => v.user?.isPremium) // Cambia si tienes otro flag para premium
-  let subbots = users.filter(v => !v.user?.isMain && !v.user?.isPremium)
+  let uptime = process.uptime() * 1000
+  let formatUptime = clockString(uptime)
 
-  // Bots presentes en el grupo actual
-  let groupParticipants = (await stars.groupMetadata(m.chat).catch(() => ({}))).participants || []
-  let botsEnGrupo = users.filter(v => groupParticipants.some(p => p.id === v.user?.jid))
-  let listaBotsGrupo = botsEnGrupo.map(v => {
-    let nombre = v.user?.name || "Sin Nombre"
-    let tipo = v.user?.isMain
-      ? "Bot Oficial"
-      : v.user?.isPremium
-      ? "Prem-Bot"
-      : "SubBot"
-    return `• ${nombre} (${tipo})`
-  }).join('\n') || 'Solo están estás sesiones activas.'
+  let totalUsers = uniqueUsers.size
 
-  let responseMessage = 
-`LISTA DE BOTS ACTIVOS
+  let txt = `LISTA DE BOTS ACTIVOS`
+  txt += `\n\n`
+  txt += `OficialBot: 1\n`
+  txt += `Prem-Bots: 0\n`
+  txt += `Main-Bots: 1\n`
+  txt += `SubBots: ${totalUsers || 0}\n`
 
-principales: 1
-Prem-Bots: 1
-Subbots: ${subbots.length}
-
-En este grupo:
-
-• Makima (OficialBot)
-• Sin Nombre (Prem-Bot)
-${listaBotsGrupo}
-`
-
-  // Newsletter context info
-  const contextNewsletter = {
-    isForwarded: true,
-    forwardingScore: 999,
-    forwardedNewsletterMessageInfo: {
-      newsletterJid: channelRD.id,
-      newsletterName: channelRD.name,
-      serverMessageId: -1
-    },
-    externalAdReply: {
-      title: channelRD.name,
-      body: 'MAKIMA 2.0 BOT',
-      thumbnailUrl: thumbnailUrl,
-      mediaType: 1,
-      renderLargerThumbnail: false,
-      sourceUrl: `https://whatsapp.com/channel/${channelRD.id.replace('@newsletter', '')}`
+  if (totalUsers > 0) {
+    txt += `\nSubbots - Números\n`
+    let i = 1
+    for (let jid of uniqueUsers.keys()) {
+      txt += `  ${i++}. wa.me/${jid.split('@')[0]}\n`
     }
-  };
+  }
 
-  await stars.sendMessage(m.chat, {
-    image: { url: thumbnailUrl },
-    caption: responseMessage,
-    contextInfo: contextNewsletter
-  }, { quoted: m }) // <-- RESPONDE al mensaje de la persona
+  await conn.reply(m.chat, txt.trim(), m, fake)
 }
 
 handler.command = ['listjadibot', 'bots']
 handler.help = ['bots']
-handler.tags = ['jadibot']
-
+handler.tags = ['serbot']
 export default handler
+
+function clockString(ms) {
+  let h = Math.floor(ms / 3600000)
+  let m = Math.floor((ms % 3600000) / 60000)
+  let s = Math.floor((ms % 60000) / 1000)
+  return [h, m, s].map(v => v.toString().padStart(2, '0')).join(':')
+}
