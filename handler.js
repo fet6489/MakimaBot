@@ -532,7 +532,7 @@ let settingsREAD = global.db.data.settings[this.user.jid] || {}
 if (opts['autoread']) await this.readMessages([m.key])
 }}
 
-global.dfail = (type, m, fake) => {
+global.dfail = (type, m, conn) => {
 const msg = {
   rowner: '「🩵」Este comando solo puede ser usado por mi creador.\n\n> Félix Manuel',
   owner:  '「💎」Este comando solo puede ser usado por mis desarrolladores.*',
