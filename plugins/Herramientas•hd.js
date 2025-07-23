@@ -6,7 +6,7 @@ const handler = async (m, { conn }) => {
     const q = m.quoted || m;
     const mime = (q.msg || q).mimetype || q.mediaType || "";
     if (!mime.startsWith("image/")) {
-      return conn.reply(m.chat, "Responde a una imagen para mejorar su calidad.", m,rcanal);
+      return conn.reply(m.chat, "Responde a una imagen para mejorar su calidad.", m,fake);
     }
 
     await m.react("🕓");
