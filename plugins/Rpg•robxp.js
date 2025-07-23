@@ -2,7 +2,7 @@ const ro = 3000;
 const handler = async (m, {conn, usedPrefix, command}) => {
   const time = global.db.data.users[m.sender].lastrob + 7200000;
   if (new Date - global.db.data.users[m.sender].lastrob < 7200000) {
-  conn.reply(m.chat, `*🩵 Hey! Espera ${msToTime(time - new Date())} para volver a robar*`, m, rcanal);
+  conn.reply(m.chat, `*🩵 Hey! Espera ${msToTime(time - new Date())} para volver a robar*`, m, fake);
   return;
   }
   let who;
@@ -13,7 +13,7 @@ const handler = async (m, {conn, usedPrefix, command}) => {
   return;
     };
   if (!(who in global.db.data.users)) { 
-  conn.reply(m.chat, `*🩵 El usuario no se encuentra en mi base de datos.*`, m, rcanal)
+  conn.reply(m.chat, `*🩵 El usuario no se encuentra en mi base de datos.*`, m, fake)
 return;
   }
   const users = global.db.data.users[who];
