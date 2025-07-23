@@ -2,7 +2,7 @@ const handler = async (m, {conn, usedPrefix, command, args, isOwner, isAdmin, is
 
 let fkontak = { "key": { "participants":"0@s.whatsapp.net", "remoteJid": "status@broadcast", "fromMe": false, "id": "Halo" }, "message": { "contactMessage": { "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` }}, "participant": "0@s.whatsapp.net" }
 
-const miniopcion = `CONFIGURATION OF GROUPS
+const miniopcion = `CONFIGURACIÓN PARA GRUPOS 
 
 ${usedPrefix + command} welcome
 ${usedPrefix + command} autoresponder
@@ -22,7 +22,7 @@ ${usedPrefix + command} modoadmin
 ${usedPrefix + command} antifake
 ${usedPrefix + command} antibot
 
-OPTIONS FOR MY CREATOR
+OPCIONES PARA MI CREADOR 
 
 ${usedPrefix + command} antisubots
 ${usedPrefix + command} public
@@ -466,7 +466,7 @@ default:
 if (!/[01]/.test(command)) return await conn.reply(m.chat, miniopcion, m, rcanal);
 throw false;
 }
-conn.reply(m.chat, `🩵  *The function ${type} was ${isEnable ? 'activated' : 'Disabled'} In this ${isAll ? 'Bot' : isUser ? '' : 'Chat.'}*`, m, rcanal, )
+conn.reply(m.chat, `🩵  *La función ${type} fue ${isEnable ? 'Activada' : 'Desactivada'} en este ${isAll ? 'Bot' : isUser ? '' : 'Chat.'}*`, m, fake, )
 
 }
 handler.help = ['en', 'dis'].map((v) => v + 'able <option>');
