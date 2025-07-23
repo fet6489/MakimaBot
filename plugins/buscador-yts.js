@@ -32,9 +32,9 @@ const handler = async (m, { conn, command }) => {
 
             if (!proposee) {
                 if (userIsMarried(proposer)) {
-                    return await conn.reply(m.chat, `《✧》 Ya estás casado con *${conn.getName(marriages[proposer])}*\n> Puedes divorciarte con el comando: *#divorce*`, m);
+                    return await conn.reply(m.chat, `「🩵」 Ya estás casado con *${conn.getName(marriages[proposer])}*\n> Puedes divorciarte con el comando: *#divorce*`, m);
                 } else {
-                    throw new Error('Debes mencionar a alguien para aceptar o proponer matrimonio.\n> Ejemplo » *#marry @⁨Ruby Hoshino⁩*');
+                    throw new Error('「🩵」 Debes mencionar a alguien para aceptar o proponer matrimonio.\n> Ejemplo » *#marry @⁨tag*');
                 }
             }
             if (userIsMarried(proposer)) throw new Error(`Ya estás casado con ${conn.getName(marriages[proposer])}.`);
@@ -50,7 +50,7 @@ const handler = async (m, { conn, command }) => {
             confirmation[proposee] = {
                 proposer,
                 timeout: setTimeout(() => {
-                    conn.sendMessage(m.chat, { text: '*《✧》Se acabó el tiempo, no se obtuvo respuesta. La propuesta de matrimonio fue cancelada.*' }, { quoted: m });
+                    conn.sendMessage(m.chat, { text: '*「🩵」 Se acabó el tiempo, no se obtuvo respuesta. La propuesta de matrimonio fue cancelada.*' }, { quoted: m });
                     delete confirmation[proposee];
                 }, 60000)
             };
@@ -67,10 +67,10 @@ const handler = async (m, { conn, command }) => {
             if (global.db.data.users[m.sender]) global.db.data.users[m.sender].marry = '';
             if (global.db.data.users[partner]) global.db.data.users[partner].marry = '';
 
-            await conn.reply(m.chat, `✐ ${conn.getName(m.sender)} y ${conn.getName(partner)} se han divorciado.`, m);
+            await conn.reply(m.chat, `「🩵」 ${conn.getName(m.sender)} y ${conn.getName(partner)} se han divorciado.`, m);
         }
     } catch (error) {
-        await conn.reply(m.chat, `《✧》 ${error.message}`, m);
+        await conn.reply(m.chat, `「🩵」 ${error.message}`, m);
     }
 }
 
@@ -84,7 +84,7 @@ handler.before = async (m) => {
     if (/^No$/i.test(m.text)) {
         clearTimeout(timeout);
         delete confirmation[m.sender];
-        return conn.sendMessage(m.chat, { text: '*《✧》Han rechazado tu propuesta de matrimonio.*' }, { quoted: m });
+        return conn.sendMessage(m.chat, { text: '*「🩵」 Han rechazado tu propuesta de matrimonio.*' }, { quoted: m });
     }
 
     if (/^Si$/i.test(m.text)) {
