@@ -231,6 +231,7 @@ let handler = async (m, { conn, usedPrefix, text, command }) => {
 ┃┈➤ #retirar
 ┃┈➤ #trabajar
 ┃┈➤ #transferir
+┃┈➤ #crimen
 ╰━━━━━━━━━━━━━━━━━━
 
 .       ╭ֹ┈ ⵿❀⵿ ┈╮ ㅤ
