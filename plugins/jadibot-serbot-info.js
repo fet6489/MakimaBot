@@ -23,7 +23,7 @@ let handler = async (m, { conn }) => {
   txt += `\n\n`
   txt += `OficialBot: 1\n`
   txt += `Prem-Bots: 0\n`
-  txt += `Main-Bots: 1\n`
+  txt += `Limite: 30\n`
   txt += `SubBots: ${totalUsers || 0}\n`
 
   if (totalUsers > 0) {
