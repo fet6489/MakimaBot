@@ -56,7 +56,6 @@ var handler = async (m, { conn }) => {
 💎 *Registrado:* ${registered ? '✅ Activado' : '❌ No'}
 
 ╭━━━━━━━━━━━━━╮
-┃💎 *Diamantes:* ${coins}
 ┃💎 *Nivel:* ${level}
 ┃💎 *Experiencia:* ${exp}
 ┃💎 *Rango:* ${role}
