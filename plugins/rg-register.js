@@ -101,7 +101,7 @@ let chtxt = `👤 *𝖴𝗌uario* » ${m.pushName || 'Anónimo'}
 🩵 *𝖨𝖣 𝖽𝖾 𝗋𝖾𝗀𝗂𝗌𝗍𝗋𝗈* »
 ⤷ ${sn}`;
 
-    let channelID = '120363402615935849@newsletter';
+    let channelID = '120363402362088282@newsletter';
         await conn.sendMessage(channelID, {
         text: chtxt,
         contextInfo: {
