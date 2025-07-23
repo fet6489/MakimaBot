@@ -25,7 +25,7 @@ global.db.data.users[m.sender].lastclaim = new Date * 1
 }
 handler.help = ['daily', 'claim']
 handler.tags = ['rpg']
-handler.command = ['daily', 'claim']
+handler.command = ['tesorodehoy', 'cofre']
 
 handler.register = true
 
