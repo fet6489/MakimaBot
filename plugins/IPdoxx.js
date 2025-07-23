@@ -1,46 +1,51 @@
-import axios from 'axios';
+// Alex-X >> https://github.com/OfcKing
 
-let handler = async (m, { conn, text }) => {
-  await m.reply("Buscando...");
-  if (!text) return conn.reply(m.chat, "Ingrese una dirección IP válida", m);
+import fs from 'fs'
+import path from 'path'
 
-  try {
-    let res = await axios.get(`http://ip-api.com/json/${text}?fields=status,message,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,isp,org,as,mobile,hosting,query`);
-    const data = res.data;
+var handler = async (m, { usedPrefix, command }) => {
+    try {
+        await m.react('🕒') 
+        conn.sendPresenceUpdate('composing', m.chat)
 
-    if (data.status !== "success") {
-      return conn.reply(m.chat, data.message || "Falló", m);
+        const pluginsDir = './plugins'
+
+        const files = fs.readdirSync(pluginsDir).filter(file => file.endsWith('.js'))
+
+        let response = `📂 *Revisión de Syntax Errors:*\n\n`
+        let hasErrors = false
+
+        for (const file of files) {
+            try {
+                await import(path.resolve(pluginsDir, file))
+            } catch (error) {
+                hasErrors = true
+                const stackLines = error.stack.split('\n')
+
+                const errorLineMatch = stackLines[0].match(/:(\d+):\d+/) 
+                const errorLine = errorLineMatch ? errorLineMatch[1] : 'Desconocido'
+
+                response += `📣 *Error en:* ${file}\n\n> ● Mensaje: ${error.message}\n> ● Número de línea: ${errorLine}\n\n> Errores de archivos del bot`
+            }
+        }
+
+        if (!hasErrors) {
+            response += '✅ ¡Todo está en orden! No se detectaron errores de sintaxis'
+        }
+
+        await conn.reply(m.chat, response, m)
+        await m.react('✅')
+    } catch (err) {
+        await m.react('✖️') 
+        console.error(err)
+        conn.reply(m.chat, '📣 *Ocurrió un fallo al verificar los plugins.*', m)
     }
-
-    let ipsearch = ` 
-    𝐈𝐏 𝐈𝐍𝐅𝐎
-
-    IP : ${data.query}
-    País : ${data.country}
-    Código de País : ${data.countryCode}
-    Provincia : ${data.regionName}
-    Código de Provincia : ${data.region}
-    Ciudad : ${data.city}
-    Distrito : ${data.district}
-    Código Postal : ${data.zip}
-    Coordenadas : ${data.lat}, ${data.lon}
-    Zona Horaria : ${data.timezone}
-    ISP : ${data.isp}
-    Organización : ${data.org}
-    AS : ${data.as}
-    Mobile : ${data.mobile ? "Si" : "No"}
-    Hosting : ${data.hosting ? "Si" : "No"}
-    `.trim();
-
-    await conn.reply(m.chat, ipsearch, m);
-  } catch (error) {
-    console.error(error);
-    await conn.reply(m.chat, 'Ocurrió un error al obtener la información de la IP.', m);
-  }
 }
-handler.help = ["IPdoxx"]
-handler.tags = ["tools"]
-handler.command ='ip', /^(ip|ipcheck|ipcek)$/i;
-handler.owner = true;
 
-export default handler;
+handler.command = ['rev']
+handler.help = ['detectarsyntax']
+handler.tags = ['tools']
+handler.rowner = true
+handler.register = true
+
+export default handler
