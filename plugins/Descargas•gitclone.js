@@ -3,10 +3,10 @@ import fetch from 'node-fetch'
 let regex = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i
 let handler = async (m, { args, usedPrefix, command }) => {
   if (!args[0]) {
-    return conn.reply(m.chat, `🚩 Escribe la URL de un repositorio de GitHub que deseas descargar.`, m, rcanal)
+    return conn.reply(m.chat, `🩵 Escribe la URL de un repositorio de GitHub que deseas descargar.`, m, fake)
   }
   if (!regex.test(args[0])) {
-    return conn.reply(m.chat, `Verifica que la *URL* sea de GitHub`, m, rcanal).then(_ => m.react(error))
+    return conn.reply(m.chat, `Verifica que la *URL* sea de GitHub`, m, fake).then(_ => m.react(error))
   }
   let [_, user, repo] = args[0].match(regex) || []
   let sanitizedRepo = repo.replace(/.git$/, '')
@@ -36,7 +36,7 @@ let handler = async (m, { args, usedPrefix, command }) => {
        txt += `✩  *Url* : ${args[0]}\n\n`
        txt += `*${textbot}*`
 
-await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m, null, rcanal)
+await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m, null, fake)
 await conn.sendFile(m.chat, await zipResponse.buffer(), filename, null, m)
 await m.react(done)
   } catch {
