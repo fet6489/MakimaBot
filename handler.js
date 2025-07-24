@@ -1,18 +1,10 @@
-import {generateWAMessageFromContent} from '@whiskeysockets/baileys';
-import {smsg} from './lib/simple.js';
-import {format} from 'util';
-import {fileURLToPath} from 'url';
-import path, {join} from 'path';
-import {unwatchFile, watchFile} from 'fs';
-import fs from 'fs';
-import chalk from 'chalk';
-import ws from 'ws';
-
-if (m.isGroup && global.db?.data?.chats?.[m.chat]?.primaryBot) {
-  let primaryBot = global.db.data.chats[m.chat].primaryBot;
-  let myJid = (this.user?.jid || this.user?.id || this.user?.user) || '';
-  if (myJid !== primaryBot) return;
-}
+import { smsg } from './lib/simple.js'
+import { format } from 'util' 
+import { fileURLToPath } from 'url'
+import path, { join } from 'path'
+import { unwatchFile, watchFile } from 'fs'
+import chalk from 'chalk'
+import fetch from 'node-fetch'
 
 const { proto } = (await import('@whiskeysockets/baileys')).default
 const isNumber = x => typeof x === 'number' && !isNaN(x)
@@ -226,25 +218,20 @@ self: false,
 restrict: true,
 jadibotmd: true,
 antiPrivate: false,
-autoread: true,
+autoread: false,
 status: 0
 }
 } catch (e) {
 console.error(e)
 }
 
-// Combina todos los JIDs de dueños (s.whatsapp.net y lid)
-global.realOwners = [
-  ...global.owner.map(([n]) => n.replace(/[^0-9]/g, '') + '@s.whatsapp.net'),
-  ...global.owner_lid.map(([lid]) => lid + '@lid')
-]
-
 let _user = global.db.data && global.db.data.users && global.db.data.users[m.sender]
 
-const isROwner = global.realOwners.includes(m.sender)
+const detectwhat = m.sender.includes('@lid') ? '@lid' : '@s.whatsapp.net';
+const isROwner = [...global.owner.map(([number]) => number)].map(v => v.replace(/[^0-9]/g, '') + detectwhat).includes(m.sender)
 const isOwner = isROwner || m.fromMe
-const isMods = isROwner || global.mods.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
-const isPrems = isROwner || global.prems.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender) || _user.premium == true
+const isMods = isROwner || global.mods.map(v => v.replace(/[^0-9]/g, '') + detectwhat).includes(m.sender)
+const isPrems = isROwner || global.prems.map(v => v.replace(/[^0-9]/g, '') + detectwhat).includes(m.sender) || _user.premium == true
 
 if (m.isBaileys) return
 if (opts['nyimak'])  return
@@ -267,13 +254,22 @@ m.exp += Math.ceil(Math.random() * 10)
 
 let usedPrefix
 
-const groupMetadata = (m.isGroup ? ((conn.chats[m.chat] || {}).metadata || await this.groupMetadata(m.chat).catch(_ => null)) : {}) || {}
-const participants = (m.isGroup ? groupMetadata.participants : []) || []
-const user = (m.isGroup ? participants.find(u => conn.decodeJid(u.id) === m.sender) : {}) || {}
-const bot = (m.isGroup ? participants.find(u => conn.decodeJid(u.id) == this.user.jid) : {}) || {}
-const isRAdmin = user?.admin == 'superadmin' || false
-const isAdmin = isRAdmin || user?.admin == 'admin' || false
-const isBotAdmin = bot?.admin || false
+async function getLidFromJid(id, conn) {
+if (id.endsWith('@lid')) return id
+const res = await conn.onWhatsApp(id).catch(() => [])
+return res[0]?.lid || id
+}
+const senderLid = await getLidFromJid(m.sender, conn)
+const botLid = await getLidFromJid(conn.user.jid, conn)
+const senderJid = m.sender
+const botJid = conn.user.jid
+const groupMetadata = m.isGroup ? ((conn.chats[m.chat] || {}).metadata || await this.groupMetadata(m.chat).catch(_ => null)) : {}
+const participants = m.isGroup ? (groupMetadata.participants || []) : []
+const user = participants.find(p => p.id === senderLid || p.id === senderJid) || {}
+const bot = participants.find(p => p.id === botLid || p.id === botJid) || {}
+const isRAdmin = user?.admin === "superadmin"
+const isAdmin = isRAdmin || user?.admin === "admin"
+const isBotAdmin = !!bot?.admin
 
 const ___dirname = path.join(path.dirname(fileURLToPath(import.meta.url)), './plugins')
 for (let name in global.plugins) {
@@ -528,16 +524,26 @@ stat.success += 1
 stat.lastSuccess = now
 }}}
 
-
 try {
 if (!opts['noprint']) await (await import(`./lib/print.js`)).default(m, this)
-} catch (e) {
+} catch (e) { 
 console.log(m, m.quoted, e)}
 let settingsREAD = global.db.data.settings[this.user.jid] || {}  
 if (opts['autoread']) await this.readMessages([m.key])
+
+if (db.data.chats[m.chat].reaction && m.text.match(/(ción|dad|aje|oso|izar|mente|pero|tion|age|ous|ate|and|but|ify|ai|yuki|a|s)/gi)) {
+let emot = pickRandom(["🍟", "😃", "😄", "😁", "😆", "🍓", "😅", "😂", "🤣", "🥲", "☺️", "😊", "😇", "🙂", "🙃", "😉", "😌", "😍", "🥰", "😘", "😗", "😙", "🌺", "🌸", "😚", "😋", "😛", "😝", "😜", "🤪", "🤨", "🌟", "🤓", "😎", "🥸", "🤩", "🥳", "😏", "💫", "😞", "😔", "😟", "😕", "🙁", "☹️", "😣", "😖", "😫", "😩", "🥺", "😢", "😭", "😤", "😠", "😡", "🤬", "🤯", "😳", "🥵", "🥶", "😶‍🌫️", "😱", "😨", "😰", "😥", "😓", "🤗", "🤔", "🫣", "🤭", "🤖", "🍭", "🤫", "🫠", "🤥", "😶", "📇", "😐", "💧", "😑", "🫨", "😬", "🙄", "😯", "😦", "😧", "😮", "😲", "🥱", "😴", "🤤", "😪", "😮‍💨", "😵", "😵‍💫", "🤐", "🥴", "🤢", "🤮", "🤧", "😷", "🤒", "🤕", "🤑", "🤠", "😈", "👿", "👺", "🧿", "🌩", "👻", "😺", "😸", "😹", "😻", "😼", "😽", "🙀", "😿", "😾", "🫶", "👍", "✌️", "🙏", "🫵", "🤏", "🤌", "☝️", "🖕", "🙏", "🫵", "🫂", "🐱", "🤹‍♀️", "🤹‍♂️", "🗿", "✨", "⚡", "🔥", "🌈", "🩷", "❤️", "🧡", "💛", "💚", "🩵", "💙", "💜", "🖤", "🩶", "🤍", "🤎", "💔", "❤️‍🔥", "❤️‍🩹", "❣️", "💕", "💞", "💓", "💗", "💖", "💘", "💝", "🚩", "👊", "⚡️", "💋", "🫰", "💅", "👑", "🐣", "🐤", "🐈"])
+if (!m.fromMe) return this.sendMessage(m.chat, { react: { text: emot, key: m.key }})
+}
+function pickRandom(list) { return list[Math.floor(Math.random() * list.length)]}
 }}
 
-global.dfail = (type, m, conn) => {
+global.dfail = (type, m, usedPrefix, command, conn) => {
+
+let edadaleatoria = ['10', '28', '20', '40', '18', '21', '15', '11', '9', '17', '25'].getRandom()
+let user2 = m.pushName || 'Anónimo'
+let verifyaleatorio = ['registrar', 'reg', 'verificar', 'verify', 'register'].getRandom()
+
 const msg = {
   rowner: '「🩵」Este comando solo puede ser usado por mi creador.\n\n> Félix Manuel',
   owner:  '「💎」Este comando solo puede ser usado por mi creador',
@@ -546,6 +552,17 @@ const msg = {
   admin: '「🩵」Este comando solo puede ser usado por admins.',
   botAdmin: '「💎」Para usar este comando, debo ser admin del grupo.',
   unreg: '「🩵」¡Hey! no estas registrado, registrate para usar mis comandos\n\n/Reg nombre.edad\n\n! Ejemplo: _/Reg Félix.14_',
-  restrict: '「💎」Este comando fue desactivado por mi Creador\n\> Félix Manuel.'
+  restrict: '「💎」Este comando fue desactivado por mi Creador\n\n> Félix Manuel.'
 }[type];
-if (msg) return conn.reply(m.chat, msg, m, fake).then(_ => m.react('✖️'))}
+if (msg) return m.reply(msg).then(_ => m.react('✖️'))}
+
+let file = global.__filename(import.meta.url, true)
+watchFile(file, async () => {
+unwatchFile(file)
+console.log(chalk.magenta("Se actualizo 'handler.js'"))
+
+if (global.conns && global.conns.length > 0 ) {
+const users = [...new Set([...global.conns.filter((conn) => conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED).map((conn) => conn)])]
+for (const userr of users) {
+userr.subreloadHandler(false)
+}}})
