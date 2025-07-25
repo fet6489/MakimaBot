@@ -1,46 +1,21 @@
-import ws from 'ws';
+let handler = async (m, { conn, text }) => {
+  if (!m.isGroup) throw 'Este comando solo sirve en grupos'
 
-let handler = async (m, { conn, usedPrefix, args }) => {
-  if (!args[0] && (!m.mentionedJid || m.mentionedJid.length === 0))
-    return m.reply(`⚠️ Etiqueta o escribe el número de algún sub-bot\nEjemplo: ${usedPrefix}setprimary @tag`);
+  if (!text) throw 'Etiqueta al bot que será el principal o pasa su número'
 
-  const subBots = global.conns.filter(c => 
-    c?.user?.jid && 
-    c?.ws?.socket && 
-    c.ws.socket.readyState !== ws.CLOSED
-  );
+  
+  let botJid = text.replace(/[^0-9]/g, '') + '@s.whatsapp.net'
 
-  if (!subBots.length) 
-    return m.reply('⚠️ No hay sub-bots activos.');
+  if (!global.db.data.chats[m.chat]) global.db.data.chats[m.chat] = {}
 
-  let botJid = '';
-  let selectedBot = null;
+  global.db.data.chats[m.chat].primaryBot = botJid
 
-  if (m.mentionedJid && m.mentionedJid.length > 0) {
-    botJid = m.mentionedJid[0];
-    selectedBot = subBots.find(c => c.user.jid === botJid);
-  } else {
-    let num = args[0].replace(/[^0-9]/g, '');
-    botJid = num + '@s.whatsapp.net';
-    selectedBot = subBots.find(c => c.user.jid === botJid);
-  }
+  m.reply(`✅ El bot principal para este grupo ahora es:\n*${botJid}*`)
+}
 
-  if (!selectedBot)
-    return m.reply("⚠️ No se encontró un sub-bot conectado con esa mención o número. Usa /listjadibot para ver los disponibles.");
+handler.help = ['setprimary @bot']
+handler.tags = ['owner']
+handler.command = ['setprimary']
+handler.admin = true
 
-  if (!global.db.data.chats[m.chat]) global.db.data.chats[m.chat] = {};
-
-  global.db.data.chats[m.chat].primaryBot = botJid;
-  await conn.sendMessage(m.chat, {
-    text: `✅ El sub-bot @${botJid.split('@')[0]} ha sido establecido como primario en este grupo. Los demás sub-bots no responderán aquí.`,
-    mentions: [botJid]
-  }, { quoted: m });
-};
-
-handler.help = ['setprimary <@tag|número>'];
-handler.tags = ['jadibot'];
-handler.command = ['setprimary'];
-handler.group = true;
-handler.register = true;
-
-export default handler;
+export default handler
