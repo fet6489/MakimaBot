@@ -554,15 +554,21 @@ const msg = {
   unreg: '「🩵」¡Hey! no estas registrado, registrate para usar mis comandos\n\n/Reg nombre.edad\n\n! Ejemplo: _/Reg Félix.14_',
   restrict: '「💎」Este comando fue desactivado por mi Creador\n\n> Félix Manuel.'
 }[type];
-if (msg) return m.reply(msg).then(_ => m.react('✖️'))}
+
+if (msg) 
+  return m.reply(msg, null, { contextInfo: fake }).then(() => m.react('✖️'))
 
 let file = global.__filename(import.meta.url, true)
 watchFile(file, async () => {
-unwatchFile(file)
-console.log(chalk.magenta("Se actualizo 'handler.js'"))
+  unwatchFile(file)
+  console.log(chalk.magenta("Se actualizo 'handler.js'"))
 
-if (global.conns && global.conns.length > 0 ) {
-const users = [...new Set([...global.conns.filter((conn) => conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED).map((conn) => conn)])]
-for (const userr of users) {
-userr.subreloadHandler(false)
-}}})
+  if (global.conns && global.conns.length > 0) {
+    const users = [...new Set([...global.conns
+      .filter(conn => conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED)
+      .map(conn => conn)])]
+    for (const userr of users) {
+      userr.subreloadHandler(false)
+    }
+  }
+})
