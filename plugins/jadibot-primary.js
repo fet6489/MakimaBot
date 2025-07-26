@@ -10,7 +10,7 @@ let handler = async (m, { conn, text }) => {
 
   global.db.data.chats[m.chat].primaryBot = botJid
 
-  m.reply(`✅ El bot principal para este grupo ahora es:\n*${botJid}*`)
+  m.reply(`El bot principal para este grupo ahora es:\n*${botJid}*`)
 }
 
 handler.help = ['setprimary @bot']
