@@ -2,7 +2,6 @@
 // No quites créditos
 
 import ws from 'ws'
-import { format } from 'util'
 import fetch from 'node-fetch'
 
 let handler = async (m, { conn }) => {
@@ -20,15 +19,10 @@ let handler = async (m, { conn }) => {
 
   let uptime = process.uptime() * 1000
   let formatUptime = clockString(uptime)
-
   let totalUsers = uniqueUsers.size
 
   let txt = `LISTA DE BOTS ACTIVOS`
-  txt += `\n\n`
-  txt += `OficialBot: 1\n`
-  txt += `Prem-Bots: 0\n`
-  txt += `Limite: 30\n`
-  txt += `SubBots: ${totalUsers || 0}\n`
+  txt += `\n\nOficialBot: 1\nPrem-Bots: 0\nLimite: 30\nSubBots: ${totalUsers || 0}\n`
 
   if (totalUsers > 0) {
     txt += `\nSubbots - Números\n`
@@ -38,19 +32,12 @@ let handler = async (m, { conn }) => {
     }
   }
 
-  // Miniatura cuadrada pequeña
+  // Obtén la miniatura cuadrada pequeña desde la URL (ajusta el tamaño si lo deseas)
   let thumbBuffer = await fetch('https://qu.ax/JzyUy.jpg').then(res => res.buffer())
 
-  // Enviar la imagen con caption y miniatura
-  await conn.sendMessage(
-    m.chat,
-    {
-      image: { url: 'https://qu.ax/JzyUy.jpg' },
-      caption: txt.trim(),
-      jpegThumbnail: thumbBuffer // miniatura cuadrada pequeña
-    },
-    { quoted: m }
-  )
+  // Envía la miniatura como sticker y el mensaje como texto aparte
+  await conn.sendMessage(m.chat, { sticker: thumbBuffer }, { quoted: m })
+  await conn.sendMessage(m.chat, { text: txt.trim() }, { quoted: m })
 }
 
 handler.command = ['listjadibot', 'bots']
