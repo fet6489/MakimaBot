@@ -4,7 +4,7 @@ var handler = async (m, {conn, usedPrefix, command, text}) => {
 if (!text) return conn.reply(m.chat, '🩵 *Ingrese el nombre de la apk para descargarlo.*', m, fake)
 try {
 await m.react(rwait)
-conn.reply(m.chat, '🩵 *Descargando su aplicación...*', m, {
+conn.reply(m.chat, '🩵 *Descargando su aplicación...*', m, fake,  {
 contextInfo: { externalAdReply :{ mediaUrl: null, mediaType: 1, showAdAttribution: true,
 title: packname,
 body: dev,
