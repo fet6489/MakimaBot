@@ -17,12 +17,13 @@ let handler = async (m, { conn }) => {
     }
   })
 
-  let uptime = process.uptime() * 1000
-  let formatUptime = clockString(uptime)
   let totalUsers = uniqueUsers.size
 
-  let txt = `LISTA DE BOTS ACTIVOS`
-  txt += `\n\nOficialBot: 1\nPrem-Bots: 0\nLimite: 30\nSubBots: ${totalUsers || 0}\n`
+  let txt = `LISTA DE BOTS ACTIVOS\n\n`
+  txt += `OficialBot: 1\n`
+  txt += `Prem-Bots: 0\n`
+  txt += `Limite: 30\n`
+  txt += `SubBots: ${totalUsers || 0}\n`
 
   if (totalUsers > 0) {
     txt += `\nSubbots - Números\n`
@@ -32,22 +33,39 @@ let handler = async (m, { conn }) => {
     }
   }
 
-  // Obtén la miniatura cuadrada pequeña desde la URL (ajusta el tamaño si lo deseas)
-  let thumbBuffer = await fetch('https://qu.ax/JzyUy.jpg').then(res => res.buffer())
+  // Datos para contexto newsletter
+  const dev = 'Félix Manuel'
+  const redes = 'https://github.com/Andresv27728/2.0'
+  const channelRD = { id: "120363400360651198@newsletter", name: "MAKIMA - UPDATES" }
+  // Miniatura superior (perfil cuadrado pequeño)
+  let perfil = 'https://files.catbox.moe/mqtxvp.jpg' // Puedes cambiar por la que gustes
+  // Banner principal (imagen grande)
+  let banner = 'https://qu.ax/JzyUy.jpg' // Puedes cambiar por cualquier otra
 
-  // Envía la miniatura como sticker y el mensaje como texto aparte
-  await conn.sendMessage(m.chat, { sticker: thumbBuffer }, { quoted: m })
-  await conn.sendMessage(m.chat, { text: txt.trim() }, { quoted: m })
+  await conn.sendMessage(m.chat, {
+    image: { url: banner },
+    caption: txt.trim(),
+    contextInfo: {
+      isForwarded: true,
+      forwardedNewsletterMessageInfo: {
+        newsletterJid: channelRD.id,
+        newsletterName: channelRD.name,
+        serverMessageId: -1,
+      },
+      forwardingScore: 999,
+      externalAdReply: {
+        title: 'Makima Bot' MD',
+        body: dev,
+        thumbnailUrl: perfil,
+        sourceUrl: redes,
+        mediaType: 1,
+        renderLargerThumbnail: false,
+      },
+    }
+  }, { quoted: m })
 }
 
 handler.command = ['listjadibot', 'bots']
 handler.help = ['bots']
 handler.tags = ['serbot']
 export default handler
-
-function clockString(ms) {
-  let h = Math.floor(ms / 3600000)
-  let m = Math.floor((ms % 3600000) / 60000)
-  let s = Math.floor((ms % 60000) / 1000)
-  return [h, m, s].map(v => v.toString().padStart(2, '0')).join(':')
-}
