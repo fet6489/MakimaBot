@@ -1,5 +1,9 @@
+// Código creado por Félix para Sistema de Makima
+// No quites créditos
+
 import ws from 'ws'
 import { format } from 'util'
+import fetch from 'node-fetch'
 
 let handler = async (m, { conn }) => {
   let uniqueUsers = new Map()
@@ -34,7 +38,19 @@ let handler = async (m, { conn }) => {
     }
   }
 
-  await conn.reply(m.chat, txt.trim(), m, fake)
+  // Miniatura cuadrada pequeña
+  let thumbBuffer = await fetch('https://qu.ax/JzyUy.jpg').then(res => res.buffer())
+
+  // Enviar la imagen con caption y miniatura
+  await conn.sendMessage(
+    m.chat,
+    {
+      image: { url: 'https://qu.ax/JzyUy.jpg' },
+      caption: txt.trim(),
+      jpegThumbnail: thumbBuffer // miniatura cuadrada pequeña
+    },
+    { quoted: m }
+  )
 }
 
 handler.command = ['listjadibot', 'bots']
