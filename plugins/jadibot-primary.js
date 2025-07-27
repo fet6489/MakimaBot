@@ -1,9 +1,9 @@
-let handler = async (m, { conn, text }) => {
-  if (!m.isGroup) throw 'Este comando solo sirve en grupos'
+let handler = async (m, { text }) => {
+  // Si no se escribió texto (número o mención)
+  if (!text || !text.replace(/[^0-9]/g, '')) {
+    return m.reply('「🩵」Debes etiquetar al bot que quieres hacer principal en este grupo.')
+  }
 
-  if (!text) throw 'Etiqueta al bot que será el principal o pasa su número'
-
-  
   let botJid = text.replace(/[^0-9]/g, '') + '@s.whatsapp.net'
 
   if (!global.db.data.chats[m.chat]) global.db.data.chats[m.chat] = {}
