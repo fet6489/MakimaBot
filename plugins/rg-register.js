@@ -44,19 +44,13 @@ let handler = async function (m, { conn, text, args, usedPrefix, command }) {
     let sn = createHash('md5').update(m.sender).digest('hex')
     let regbot = `╔━━▣━━━━⌬⌬━━▣
 ┃Nombre: ${name}
-┃Edad: ${age}
+┃Edad: ${age} años 
 ┗━━▣━━━━⌬⌬━━▣
 
 《🎁》 𝐑𝖾𝖼𝗼𝗆𝗉𝖾𝗇𝗌𝗮𝗌
 
 ╔⌬━━━━━━━━━━━━▣
-┃💎Diamantes: 100
-┃
-┃💰Makicoins: 200
-┃
-┃✨Experiencia: 1000
-┃
-┃🎫Tokens: 22
+┃ MISURI BOT MD 
 ╚⌬━━━━━━━━━━━━▣
 
    ━━━SIGUENOS━━━
