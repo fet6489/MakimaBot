@@ -47,10 +47,8 @@ let handler = async function (m, { conn, text, args, usedPrefix, command }) {
 ┃Edad: ${age} años 
 ┗━━▣━━━━⌬⌬━━▣
 
-《🎁》 𝐑𝖾𝖼𝗼𝗆𝗉𝖾𝗇𝗌𝗮𝗌
-
 ╔⌬━━━━━━━━━━━━▣
-┃ MISURI BOT MD 
+┃  MAKIMA BOT MD 
 ╚⌬━━━━━━━━━━━━▣
 
    ━━━SIGUENOS━━━
