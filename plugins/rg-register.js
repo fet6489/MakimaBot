@@ -48,23 +48,23 @@ let handler = async function (m, { conn, text, args, usedPrefix, command }) {
 ┗━━▣━━━━⌬⌬━━▣
 
 ╔⌬━━━━━━━━━━━━▣
-┃  MAKIMA BOT MD 
+┃MIRA TU REGISTRO AQUÍ 
 ╚⌬━━━━━━━━━━━━▣
 
    ━━━SIGUENOS━━━
 
 ╭ׅׄ̇─ׅ̻ׄ╮۪̇߭︹ׅ̟ׄ̇︹ׅ۪ׄ̇߭︹ׅ̟ׄ̇⊹۪̇߭︹ׅ̟ׄ̇︹ׅ۪ׄ̇߭︹ׅ̟ׄ̇⊹۪̇߭︹ׅ̟ׄ̇︹ׅ۪ׄ̇߭︹ׅ̟ׄ̇⊹
-https://whatsapp.com/channel/0029VbAa5sNCsU9Hlzsn651S
+https://whatsapp.com/channel/0029Vb5nxWWFHWq5CNFP5b21
 ╚▭࣪▬ִ▭࣪▬ִ▭࣪▬ִ▭࣪▬ִ▭࣪▬ִ▭࣪▬▭╝
 
-> © Powered by Félix Manuel`
+> ${dev}~`
 
   await conn.sendMessage(m.chat, {
         text: regbot,
         contextInfo: {
             externalAdReply: {
                 title: '⊱『🩵𝆺𝅥 𝗥𝗘𝗚𝗜𝗦𝗧𝗥𝗔𝗗𝗢(𝗔) 𝆹𝅥🔥』⊰',
-                thumbnailUrl: 'https://files.catbox.moe/445fzg.jpg',
+                thumbnailUrl: 'https://qu.ax/XjrVb.jpg',
                 mediaType: 1,
                 renderLargerThumbnail: true
             }
