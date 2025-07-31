@@ -49,13 +49,13 @@ global.makiJadibts = true
 
 global.packsticker = `┃🐬 Deymoon Club Ofc
 \n    ⤷ https://cyanseven.vercel.app/\n          ┃💠 Info:
-\n             ⤷ cyan-seven.vercel.app
+\n             ⤷ cyan-seven.vercel.app\n\n`
+global.packname = `⏤͟͞ू⃪  ̸̷͢Makima 𝐁𝐨𝐭𑁯ᰍ`
+global.author = `
 \n                     ┃💥 Bot: 
 \n                         ┃⤷ Makima 
 \n\n                          ┃Usuario:
- \n                               ┃⤷ Desconocido\n\n`
-global.packname = `⏤͟͞ू⃪  ̸̷͢Makima 𝐁𝐨𝐭𑁯ᰍ`
-global.author = `𝐒𝐭𝐢𝐜𝐤𝐞𝐫𝐬 𝐁𝐲 Deymoom Club`;
+ \n                               ┃⤷ Desconocido`;
 global.wm = '⏤͟͞ू⃪  ̸̷͢𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 Deymoon Club';
 global.titulowm = '⏤͟͞ू⃪Makima 𝐁𖹭t͟𑁯ᰍ';
 global.igfg = 'Deymoon Club'
