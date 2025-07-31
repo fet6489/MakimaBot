@@ -47,7 +47,13 @@ global.makiJadibts = true
 
 //*─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─*
 
-global.packsticker = `─✰─ׄ─ׅ─ׄ─✰─ׄ─✰─ׄ✰─ׄ\nBot: Makima Bot MD\n\nCreador: Félix Manuel\n\nTipo: Público\n\nUsuarios: 10927\n─✰─ׄ─ׅ─ׄ─✰─ׄ─✰─ׄ✰─ׄ\n\n`
+global.packsticker = `┃🐬 Deymoon Club Ofc
+\n    ⤷ https://cyanseven.vercel.app/\n          ┃💠 Info:
+\n             ⤷ cyan-seven.vercel.app
+\n                     ┃💥 Bot: 
+\n                         ┃⤷ Makima 
+\n\n                          ┃Usuario:
+ \n                               ┃⤷ Desconocido\n\n`
 global.packname = `⏤͟͞ू⃪  ̸̷͢Makima 𝐁𝐨𝐭𑁯ᰍ`
 global.author = `𝐒𝐭𝐢𝐜𝐤𝐞𝐫𝐬 𝐁𝐲 Deymoom Club`;
 global.wm = '⏤͟͞ू⃪  ̸̷͢𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 Deymoon Club';
