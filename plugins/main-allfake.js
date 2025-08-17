@@ -37,9 +37,9 @@ global.namecomu = 'Deymoon Club'
 global.listo = '🩵 *Aquí tienes ᕕ( ᐛ )ᕗ*'
 
 //Ids channel
-global.idchannel = '120363400360651198@newsletter'
-global.canalIdM = ["120363400360651198@newsletter", "120363418804796632@newsletter"]
-global.canalNombreM = ["⏤͟͞ू⃪  ̸̷͢𝐌𝐚𝐤𝐢𝐦𝐚 ☦︎ 𝐂𝐡𝐚𝐧𝐧𝐞𝐥𑁯ᰍ", "🩵̶۫̄͟Ⓜ︎𓏲𝐌500𓍲̈͜𝗨̴ᥣ̥𝗍̈rᥲ̄𓊓̵̬𝐂h҉a҉n҉n̸e҉l҉⋆͙̈么͟͞──"]
+global.idchannel = '120363418804796632@newsletter'
+global.canalIdM = ["120363402362088282@newsletter", "120363418804796632@newsletter"]
+global.canalNombreM = ["⏤͟͞ू⃪  ̸̷͢𝐌𝐚𝐤𝐢𝐦𝐚 ☦︎ 𝐂𝐡𝐚𝐧𝐧𝐞𝐥𑁯ᰍ", "🩵̶۫̄͟𓏲𓍲̈͜Kurayami Host⋆͙̈么͟͞──"]
 global.channelRD = await getRandomChannel()
 
 global.d = new Date(new Date + 3600000)
@@ -64,7 +64,7 @@ global.emojis = [emoji, emoji2, emoji3, emoji4].getRandom()
 
 
 //Enlaces
-var canal = 'https://whatsapp.com/channel/0029VbAZcyIIXnlwp79iwu2l'  
+var canal = 'https://whatsapp.com/channel/0029Vb5nxWWFHWq5CNFP5b21'  
 let canal2 = 'https://whatsapp.com/channel/0029VbAa5sNCsU9Hlzsn651S'
 var git = 'https://github.com/mantis-has' 
 var youtube = '' 
