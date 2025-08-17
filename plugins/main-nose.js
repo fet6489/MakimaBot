@@ -3,8 +3,8 @@
 // Créditos: mantis-has (GitHub: https://github.com/mantis-has)
 
 const channelRD = {
-  id: "120363400360651198@newsletter", // Cambia por tu canal si quieres
-  name: "MAKIMA - CHANNEL"
+  id: "120363418804796632@newsletter", // Cambia por tu canal si quieres
+  name: "KURAYAMI-HOST"
 }
 const thumbnailUrl = 'https://qu.ax/dXOUo.jpg' // Imagen cuadrada y pequeña
 
