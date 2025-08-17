@@ -47,9 +47,7 @@ global.makiJadibts = true
 
 //*─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─*
 
-global.packsticker = `┃🐬 Deymoon Club Ofc
-\n    ⤷ https://cyanseven.vercel.app/\n\n\n                          ┃Usuario:
- \n                               ┃⤷ Desconocido\n\n`
+global.packsticker = `Makima Bot\n\n`
 global.packname = `⏤͟͞ू⃪  ̸̷͢Makima 𝐁𝐨𝐭𑁯ᰍ`
 global.author = `Stickers Deymoon Club`;
 global.wm = '⏤͟͞ू⃪  ̸̷͢𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 Deymoon Club';
@@ -66,15 +64,15 @@ global.namechannel = 'Mak𝐢 𝐂𝐡a͟𝐧n͟e͟𝐥𑁯'
 global.moneda = '¥'
 
 //• ↳ ◜𝑳𝑰𝑵𝑲𝑺  𝑫𝑬𝒀𝑴𝑶𝑶𝑵 𝑪𝑳𝑼𝑩◞ • 🩵
-global.gp4 = 'https://chat.whatsapp.com/KoJjHo6o3Ew7P5qkjaIh0r' //Grupo Oficial De Makima 
-global.gp1 = 'https://chat.whatsapp.com/KoJjHo6o3Ew7P5qkjaIh0r' //Grupo 2
-global.gp2 = 'https://chat.whatsapp.com/KoJjHo6o3Ew7P5qkjaIh0r'//
-global.channel = 'https://whatsapp.com/channel/0029VbAZcyIIXnlwp79iwu2l' //Canal Oficial
+global.gp4 = 'https://chat.whatsapp.com/ETZduk7trjG9xgTXVCRHYK?mode=ac_t' //Grupo Oficial De Makima 
+global.gp1 = 'https://chat.whatsapp.com/ETZduk7trjG9xgTXVCRHYK?mode=ac_t' //Grupo 2
+global.gp2 = 'https://chat.whatsapp.com/ETZduk7trjG9xgTXVCRHYK?mode=ac_t'//
+global.channel = 'https://whatsapp.com/channel/0029VbAa5sNCsU9Hlzsn651S' //Canal Oficial
 global.channel2 = 'https://whatsapp.com/channel/0029VbAa5sNCsU9Hlzsn651S' //Canal test 
 global.yt = 'https://www.youtube.com/frasesbebord' //Canal De Youtube
 global.md = 'https://github.com/mantis-has/Makima' //Github Oficial
 global.correo = 'mantisbotmd@gmail.com'
-global.cn ='https://whatsapp.com/channel/0029VbAZcyIIXnlwp79iwu2l';
+global.cn ='https://whatsapp.com/channel/0029VbAa5sNCsU9Hlzsn651S';
 
 //*─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─*
 
