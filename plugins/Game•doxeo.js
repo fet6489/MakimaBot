@@ -1,89 +1,99 @@
-import { performance } from 'perf_hooks'
+// Código creado por los del canal de Códigos uwu
+import { performance } from 'perf_hooks';
 
-var handler = async (m, { conn, text }) => {
+const handler = async (m, { conn, text, participants }) => {
+  const start = performance.now();
+  const end = performance.now();
+  const executionTime = (end - start);
 
-if (!text) return conn.reply(m.chat, '🚩 *Ingrese el tag de algún usuario*', m, fake, )
-let who
-if (m.isGroup) who = m.mentionedJid[0]
-else who = m.chat
-if (!who) return conn.reply(m.chat, '🚩 *Ingrese el tag de algún usuario*', m, fake, )
-let start = `🚩 *Iniciando doxeo* 🚩`
-let ala = `🤫`
-let boost = `*${pickRandom(['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20'])}%*`
-let boost2 = `*${pickRandom(['21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40'])}%*`
-let boost3 = `*${pickRandom(['41','42','43','44','45','46','47','48','49','50','51','52','53','54','55','56','57','58','59','60'])}%*`
-let boost4 = `*${pickRandom(['61','62','63','64','65','66','67','68','69','70','71','72','73','74','75','76','77','78','79','80'])}%*`
-let boost5 = `*${pickRandom(['81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','100'])}%*`
+  let target = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender;
+  let phoneNumber = target.split('@')[0];
 
-const { key } = await conn.sendMessage(m.chat, {text: `${start}`}, {quoted: m})
-await delay(1000 * 1)
-await conn.sendMessage(m.chat, {text: `${boost2}`, edit: key})
-await delay(1000 * 1)
-await conn.sendMessage(m.chat, {text: `${boost3}`, edit: key})
-await delay(1000 * 1)
-await conn.sendMessage(m.chat, {text: `${boost4}`, edit: key})
-await delay(1000 * 1)
-await conn.sendMessage(m.chat, {text: `${boost5}`, edit: key})
+  async function loading() {
+    const steps = [
+      "⚡ Iniciando conexión segura con el servidor...",
+      "🔍 Escaneando puertos abiertos...",
+      "📡 Handshake completado con dirección IP 192.168.25.93",
+      "📂 Extrayendo metadatos del dispositivo...",
+      `⏳ Progreso: ${getRandomInt(5, 15)}%`,
+      `⏳ Progreso: ${getRandomInt(20, 35)}%`,
+      "🔑 Obteniendo claves de autenticación...",
+      `⏳ Progreso: ${getRandomInt(40, 55)}%`,
+      "💾 Descargando registros del sistema...",
+      `⏳ Progreso: ${getRandomInt(60, 75)}%`,
+      "🛡 Eliminando rastros digitales...",
+      `⏳ Progreso: ${getRandomInt(80, 95)}%`,
+      "✅ HACKING COMPLETED",
+      "📡 Generando reporte final..."
+    ];
 
-let old = performance.now()
-let neww = performance.now()
-let speed = `${neww - old}`
-let doxeo = `🚩 *Persona doxeada* 
+    let { key } = await conn.sendMessage(
+      m.chat,
+      { text: `*☠ Iniciando proceso de doxxing...*` },
+      { quoted: m }
+    );
 
-📅 ${fecha}
-⏰ ${tiempo}
+    for (let i = 0; i < steps.length; i++) {
+      await new Promise(resolve => setTimeout(resolve, getRandomInt(700, 2000)));
+      await conn.sendMessage(m.chat, { text: steps[i], edit: key }, { quoted: m });
+    }
+    let nombre = await conn.getName(target);
 
-📢 Resultados:
+    const fakeReport = `
+*\`☠ HACKED DATA ☠\`*
+👤 Nombre detectado: ${nombre}
+📱 Teléfono vinculado: +${phoneNumber}
+🌐 Dirección IP: 192.168.${getRandomInt(1,255)}.${getRandomInt(1,255)}
+🛰 Ubicación aproximada: ${getRandomInt(1,255)}.${getRandomInt(1,255)}.${getRandomInt(1,255)}.${getRandomInt(1,255)} (GeoIP)
 
-*Nombre:* ${text}
-*Ip:* 92.28.211.234
-*N:* 43 7462
-*W:* 12.4893
-*SS NUMBER:* 6979191519182016
-*IPV6:* fe80::5dcd::ef69::fb22::d9888%12 
-*UPNP:* Enabled
-*DMZ:* 10.112.42.15
-*MAC:* 5A:78:3E:7E:00
-*ISP:* Ucom unversal 
-*DNS:* 8.8.8.8
-*ALT DNS:* 1.1.1.8.1  
-*DNS SUFFIX:* Dlink
-*WAN:* 100.23.10.15
-*WAN TYPE:* private nat
-*GATEWAY:* 192.168.0.1
-*SUBNET MASK:* 255.255.0.255
-*UDP OPEN PORTS:* 8080.80
-*TCP OPEN PORTS:* 443
-*ROUTER VENDEDOR:* ERICCSON
-*DEVICE VENDEDOR:* WIN32-X
-*CONNECTION TYPE:* TPLINK COMPANY
-*ICMPHOPS:* 192.168.0.1 192.168.1.1 100.73.43.4
-host-132.12.32.167.ucom.com
-host-132.12.111.ucom.com
-36.134.67.189 216.239.78.11
-Sof02s32inf14.1e100.net
-*HTTP:* 192.168.3.1:433-->92.28.211.234:80
-*Http:* 192.168.625-->92.28.211.455:80
-*Http:* 192.168.817-->92.28.211.8:971
-*Upd:* 192.168452-->92.28.211:7265288
-*Tcp:* 192.168.682-->92.28.211:62227.7
-*Tcp:* 192.168.725-->92.28.211:67wu2
-*Tcp:* 192.168.629-->92.28.211.167:8615
-*EXTERNAL MAC:* 6U:77:89:ER:O4
-*MODEM JUMPS:* 64`
-m.reply(doxeo, null, { mentions: conn.parseMention(doxeo) })
+\`📧 Emails filtrados:\`
+- ${randomString(6)}@gmail.com
+- ${randomString(6)}@yahoo.com
+- ${randomString(6)}@proton.me
 
-}
-handler.help = ['doxear'];
+\`🔑 Contraseñas expuestas:\`
+- ${randomString(10)}
+- ${randomString(10)}
+- ${randomString(10)}
+
+\`🍪 Cookies de sesión:\`
+- session_${randomString(12)}
+- auth_${randomString(12)}
+- token_${randomString(12)}
+
+\`📜 Historial de navegación:\`
+- facebook.com/${randomString(6)}
+- instagram.com/${randomString(6)}
+- tiktok.com/@${randomString(6)}
+- youtube.com/watch?v=${randomString(11)}
+
+\`🖥 Logs del sistema:\`
+[${new Date().toISOString()}] WARNING: Root access detected
+[${new Date().toISOString()}] ERROR: Unauthorized login bypass
+[${new Date().toISOString()}] INFO: Malware signature "trojan.fake" injected
+
+⚠️ Datos transmitidos al servidor remoto con éxito.
+`;
+
+    await conn.sendMessage(m.chat, { text: fakeReport }, { quoted: m });
+  }
+
+  loading();
+};
+
+handler.help = ['doxear <@tag>'];
 handler.tags = ['fun'];
-handler.command = ['doxear', 'doxxeo', 'doxeo']
+handler.command = ['doxxing', 'doxear'];
+handler.group = true;
+handler.register = true;
 
-handler.register = true
-handler.group = true
+export default handler;
 
-export default handler
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-function pickRandom(list) {
-return list[Math.floor(Math.random() * list.length)]}
-
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+function randomString(length) {
+  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  return Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+}
