@@ -15,9 +15,9 @@ const jugadores = [
   { nombre: "Ronaldo", valor: 100, url: "https://qu.ax/jDVGs.jpg" }
 ];
 
-const channelRD = { id: "120363400360651198@newsletter", name: "MAKIMA - FRASES" };
+const channelRD = { id: "120363418804796632@newsletter", name: "KURAYAMI-HOST" };
 const MAKIMA_ICON = "https://qu.ax/dXOUo.jpg";
-const GITHUB_MAKIMA = "https://github.com/mantis-has/Makima";
+const GITHUB_MAKIMA = "https://dash.kurayamihost.dpdns.org";
 const NEWSLETTER_TITLE = '🩵 MAKIMA BOT MD 🩵';
 const SOC_CLAIM_TIMEOUT = 3 * 60 * 1000; // 3 minutos
 
