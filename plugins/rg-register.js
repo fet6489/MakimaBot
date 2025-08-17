@@ -47,10 +47,6 @@ let handler = async function (m, { conn, text, args, usedPrefix, command }) {
 ┃Edad: ${age} años 
 ┗━━▣━━━━⌬⌬━━▣
 
-╔⌬━━━━━━━━━━━━▣
-┃MIRA TU REGISTRO AQUÍ 
-╚⌬━━━━━━━━━━━━▣
-
    ━━━SIGUENOS━━━
 
 ╭ׅׄ̇─ׅ̻ׄ╮۪̇߭︹ׅ̟ׄ̇︹ׅ۪ׄ̇߭︹ׅ̟ׄ̇⊹۪̇߭︹ׅ̟ׄ̇︹ׅ۪ׄ̇߭︹ׅ̟ׄ̇⊹۪̇߭︹ׅ̟ׄ̇︹ׅ۪ׄ̇߭︹ׅ̟ׄ̇⊹
