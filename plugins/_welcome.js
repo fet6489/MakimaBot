@@ -2,8 +2,8 @@ import { WAMessageStubType } from '@whiskeysockets/baileys'
 import fetch from 'node-fetch'
 
 const channelRD = {
-  id: "120363400360651198@newsletter", // Cambia por tu canal si quieres
-  name: "MAKIMA - CHANNEL"
+  id: "120363418804796632@newsletter", // Cambia por tu canal si quieres
+  name: "Kurayami Host"
 };
 
 export async function before(m, { conn, participants, groupMetadata }) {
@@ -52,7 +52,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
     const bienvenida = `
 💎 WELCOME - USER 💎
 
-🩵 Usuario: ${user}
+🩵 Usuario: ${taguser}
 🩵 Grupo: ${groupMetadata.subject}
 🩵 Miembros: ${total}
 
@@ -75,7 +75,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
     const despedida = `
 💎 ADIOS - USER 💎
 
-🩵 Usuario: ${user}
+🩵 Usuario: ${taguser}
 🩵 Grupo: ${groupMetadata.subject}
 🩵 Miembros: ${total}
 
