@@ -6,8 +6,8 @@ const img = 'https://qu.ax/dXOUo.jpg'
 
 // Canal info (personaliza aquí)
 const canalName = 'ECONOMIA DEL USUARIO'
-const canalDesc = 'MAKIMA 2.0 CHANNEL'
-const canalUrl = 'https://whatsapp.com/channel/120363400360651198'
+const canalDesc = 'Kurayami Host'
+const canalUrl = 'https://whatsapp.com/channel/120363418804796632'
 const dev = 'Félix Manuel'
 
 function obtenerRango(level) {
@@ -58,7 +58,7 @@ let handler = async (m, { conn }) => {
     contextInfo: {
       isForwarded: true,
       forwardedNewsletterMessageInfo: {
-        newsletterJid: "120363400360651198@newsletter", // ID de tu canal
+        newsletterJid: "120363418804796632@newsletter", // ID de tu canal
         newsletterName: canalName,
         serverMessageId: -1,
       },
