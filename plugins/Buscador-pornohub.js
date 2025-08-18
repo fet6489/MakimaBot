@@ -198,16 +198,13 @@ let handler = async (m, { conn, usedPrefix }) => {
                 mediaType: 3,
                 showAdAttribution: true,
                 title: elegido.personaje,
-                body: wm,
+                body: 'Mundo Oculto Oficial',
                 previewType: 0,
                 thumbnail: thumb,
-                sourceUrl: channel,
+                sourceUrl: elegido.canal,
             },
-            forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363335626706839@newsletter',
-                newsletterName: '⛦『 ✎𝐓͢ᴇ𝙖፝ᴍ⃨ 𝘾𝒉꯭𝐚𝑛𝑛𝒆𝑙 𝑹ᴜ⃛ɓ𝑦-𝑯ᴏ⃔𝒔𝑯𝙞꯭𝑛⃡𝒐✎ 』⛦',
-                serverMessageId: '-1'
-            }
+            forwardingScore: 999,
+            isForwarded: true
         }
     }, { quoted: m });
 }
