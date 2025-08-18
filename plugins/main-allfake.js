@@ -66,10 +66,10 @@ global.emojis = [emoji, emoji2, emoji3, emoji4].getRandom()
 //Enlaces
 var canal = 'https://whatsapp.com/channel/0029Vb5nxWWFHWq5CNFP5b21'  
 let canal2 = 'https://whatsapp.com/channel/0029VbAa5sNCsU9Hlzsn651S'
-var git = 'https://github.com/mantis-has' 
-var youtube = '' 
-var github = 'https://github.com/mantis-has/Makima' 
-let correo = 'quieresrobarladrondebotsxd@gmail.com'
+var git = 'https://dash.kurayamihost.dpdns.org/home' 
+var youtube = 'https://dash.kurayamihost.dpdns.org/home' 
+var github = 'https://dash.kurayamihost.dpdns.org/home' 
+let correo = 'https://dash.kurayamihost.dpdns.org/home'
 global.redes = [canal, git, github, correo].getRandom()
 
 let category = "imagen"
