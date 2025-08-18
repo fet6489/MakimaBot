@@ -51,7 +51,7 @@ let handler = async (m, { conn, usedPrefix, text, command }) => {
     if (command === 'menu' || command === 'help' || command === 'menú') {
       // Variables para el contexto del canal
       const dev = 'Félix Manuel';
-      const redes = 'https://github.com/Andresv27728/2.0';
+      const redes = 'https://dash.kurayamihost.dpdns.org/home';
       const channelRD = { id: "120363418804796632@newsletter", name: "Kurayami Host" };
       let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender;
       let perfil = await conn.profilePictureUrl(who, 'image').catch(_ => 'https://files.catbox.moe/mqtxvp.jpg');
