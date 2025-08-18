@@ -69,9 +69,9 @@ global.gp1 = 'https://chat.whatsapp.com/ETZduk7trjG9xgTXVCRHYK?mode=ac_t' //Grup
 global.gp2 = 'https://chat.whatsapp.com/ETZduk7trjG9xgTXVCRHYK?mode=ac_t'//
 global.channel = 'https://whatsapp.com/channel/0029VbAa5sNCsU9Hlzsn651S' //Canal Oficial
 global.channel2 = 'https://whatsapp.com/channel/0029VbAa5sNCsU9Hlzsn651S' //Canal test 
-global.yt = 'https://www.youtube.com/frasesbebord' //Canal De Youtube
-global.md = 'https://github.com/mantis-has/Makima' //Github Oficial
-global.correo = 'mantisbotmd@gmail.com'
+global.yt = 'https://dash.kurayamihost.dpdns.org/home' //Canal De Youtube
+global.md = 'https://dash.kurayamihost.dpdns.org/home' //Github Oficial
+global.correo = 'https://dash.kurayamihost.dpdns.org/home'
 global.cn ='https://whatsapp.com/channel/0029VbAa5sNCsU9Hlzsn651S';
 
 //*─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─✰─ׄ─ׅ─ׄ─*
