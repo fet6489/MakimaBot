@@ -9,11 +9,11 @@ let handler = async (m, { conn }) => {
   let nombreCreator = '💎 C R E A D O R 💎'
   let canal = 'https://wa.me18293142989'
 
-  let numberBot = '527222518356' // Número del bot
+  let numberBot = '212649023476' // Número del bot
   let nombreBot = 'BOT OFICIAL'
 
-  let numberYoSoyYo = '573133374132'
-  let nombreYoSoyYo = 'YO SOY YO'
+  let numberManuel = '18092564638'
+  let nombreManuel = 'MANUEL'
 
   // vCards individuales
   let vcardCreator = `BEGIN:VCARD
@@ -30,11 +30,11 @@ FN:${nombreBot}
 TEL;waid=${numberBot}:${numberBot}
 END:VCARD`
 
-  let vcardYoSoyYo = `BEGIN:VCARD
+  let vcardManuel = `BEGIN:VCARD
 VERSION:3.0
-N:${nombreYoSoyYo}
-FN:${nombreYoSoyYo}
-TEL;waid=${numberYoSoyYo}:${numberYoSoyYo}
+N:${nombreManuel}
+FN:${nombreManuel}
+TEL;waid=${numberManuel}:${numberManuel}
 END:VCARD`
 
   // Envía el canal como texto
@@ -47,7 +47,7 @@ END:VCARD`
       contacts: [
         { vcard: vcardCreator },
         { vcard: vcardBot },
-        { vcard: vcardYoSoyYo }
+        { vcard: vcardManuel }
       ]
     }
   }, { quoted: m })
@@ -55,6 +55,6 @@ END:VCARD`
 
 handler.help = ['owner']
 handler.tags = ['main']
-handler.command = ['owner', 'creatora', 'creadora', 'dueña']
+handler.command = ['owner', 'creator', 'creador', 'dueño']
 
 export default handler
